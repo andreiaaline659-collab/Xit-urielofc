@@ -1,14 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>URIEL XIT OFC</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 body{
- margin:0;background:#030005;color:white;
- font-family:Arial,sans-serif;
+ margin:0;background:#030005;color:white;font-family:Arial,sans-serif;
  background-image:
  radial-gradient(circle at 12% 20%,#a000ff 1px,transparent 3px),
  radial-gradient(circle at 80% 35%,#a000ff 1px,transparent 3px),
@@ -63,8 +66,13 @@ h2:after{
 .banner strong{font-size:25px;font-style:italic;text-shadow:2px 2px #000}
 .banner span{font-size:19px;color:#ff3131;font-weight:bold}
 .banner small{margin-top:12px;color:#ffd5d5}
+.product-image{
+ width:100%;height:180px;object-fit:cover;
+ border-bottom:2px solid #a000ff;display:block;
+}
 .info{padding:12px}
 .name{font-size:18px;line-height:1.35;min-height:48px}
+.description{color:#bbb;font-size:14px;margin-top:8px}
 .old{color:#aaa;text-decoration:line-through;margin-top:15px}
 .discount{color:#00ed9b;background:#00291d;padding:5px 8px;border-radius:7px;margin-left:8px}
 .price{font-size:25px;margin-top:7px}
@@ -76,8 +84,9 @@ h2:after{
 }
 .buy{flex:1}
 .download{width:53px;color:white;font-size:22px}
-
-/* Janela de pagamento Pix */
+.status-message{
+ text-align:center;padding:25px;color:#ddd;grid-column:1/-1;
+}
 .pix-modal{
  display:none;position:fixed;inset:0;z-index:999;
  background:rgba(0,0,0,.88);
@@ -102,7 +111,6 @@ h2:after{
 .copy-pix{background:#a000ff;color:white}
 .close-pix{background:#30213b;color:white}
 .pix-note{text-align:center;color:#ccc;font-size:13px;line-height:1.5}
-
 footer{text-align:center;color:#aaa;padding:35px 10px}
 @media(max-width:380px){
  .logo{font-size:15px}.search{padding:10px}
@@ -112,6 +120,7 @@ footer{text-align:center;color:#aaa;padding:35px 10px}
 }
 </style>
 </head>
+
 <body>
 <header>
  <div class="logo">
@@ -131,82 +140,11 @@ footer{text-align:center;color:#aaa;padding:35px 10px}
 
  <h2>PROXY ANDROID KWAI</h2>
 
- <section class="products">
-  <article class="card">
-   <div class="banner">
-    <strong>EXTERNAL KWAI</strong>
-    <span>PROXY ANDROID</span>
-    <small>ANDROID • ACESSO DIGITAL</small>
-   </div>
-   <div class="info">
-    <div class="name">PROXY ANDROID MOD KWAI - 1 DIA</div>
-    <div class="old">R$ 40,00 <span class="discount">↓ 62%</span></div>
-    <div class="price">R$ 15,00</div>
-    <div class="pix">À vista no PIX</div>
-    <div class="buttons">
-     <button class="buy" onclick="alert('Em breve: compra e pagamento.')">Comprar</button>
-     <button class="download" onclick="alert('O download será disponibilizado após a compra.')">⇩</button>
-    </div>
-   </div>
-  </article>
-
-  <article class="card">
-   <div class="banner">
-    <strong>EXTERNAL KWAI</strong>
-    <span>PROXY ANDROID</span>
-    <small>ANDROID • ACESSO DIGITAL</small>
-   </div>
-   <div class="info">
-    <div class="name">PROXY ANDROID MOD KWAI - 7 DIAS</div>
-    <div class="old">R$ 70,00 <span class="discount">↓ 64%</span></div>
-    <div class="price">R$ 25,00</div>
-    <div class="pix">À vista no PIX</div>
-    <div class="buttons">
-     <button class="buy" onclick="alert('Em breve: compra e pagamento.')">Comprar</button>
-     <button class="download" onclick="alert('O download será disponibilizado após a compra.')">⇩</button>
-    </div>
-   </div>
-  </article>
-
-  <article class="card">
-   <div class="banner">
-    <strong>EXTERNAL KWAI</strong>
-    <span>PROXY ANDROID</span>
-    <small>ANDROID • ACESSO DIGITAL</small>
-   </div>
-   <div class="info">
-    <div class="name">PROXY ANDROID MOD KWAI - 30 DIAS</div>
-    <div class="old">R$ 130,00 <span class="discount">↓ 63%</span></div>
-    <div class="price">R$ 65,00</div>
-    <div class="pix">À vista no PIX</div>
-    <div class="buttons">
-     <button class="buy" onclick="alert('Em breve: compra e pagamento.')">Comprar</button>
-     <button class="download" onclick="alert('O download será disponibilizado após a compra.')">⇩</button>
-    </div>
-   </div>
-  </article>
-
-  <!-- NOVO PRODUTO: PROXY ANDROID V3 -->
-  <article class="card">
-   <div class="banner">
-    <strong>PROXY ANDROID V3</strong>
-    <span>ACESSO DIGITAL</span>
-    <small>ANDROID • PRODUTO PERMANENTE</small>
-   </div>
-   <div class="info">
-    <div class="name">PROXY ANDROID V3</div>
-    <div class="price">R$ 24,90</div>
-    <div class="pix">À vista no PIX</div>
-    <div class="buttons">
-     <button class="buy" onclick="openPix()">Comprar</button>
-     <button class="download" onclick="alert('O download será liberado após a confirmação do pagamento pela loja.')">⇩</button>
-    </div>
-   </div>
-  </article>
+ <section class="products" id="products">
+  <div class="status-message">Carregando produtos...</div>
  </section>
 </main>
 
-<!-- JANELA PIX -->
 <div class="pix-modal" id="pixModal">
  <div class="pix-box">
   <h3>Pagamento via Pix</h3>
@@ -223,11 +161,94 @@ footer{text-align:center;color:#aaa;padding:35px 10px}
 <footer>© 2026 URIEL XIT OFC — Todos os direitos reservados.</footer>
 
 <script>
+const SUPABASE_URL = 'https://uvmlovadmbyiuvjogepv.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4eUg8dwrnmVZCcCQiEANvA_DgXwvOST';
+
+const supabaseClient = window.supabase.createClient(
+ SUPABASE_URL,
+ SUPABASE_KEY
+);
+
+function escapeHTML(value){
+ return String(value ?? '').replace(/[&<>"']/g, char => ({
+  '&':'&amp;','<':'&lt;','>':'&gt;',
+  '"':'&quot;',"'":'&#39;'
+ }[char]));
+}
+
+function formatPrice(value){
+ return Number(value).toLocaleString('pt-BR',{
+  style:'currency',currency:'BRL'
+ });
+}
+
+function renderProduct(product){
+ const price = Number(product.price);
+ const promo = product.promo_price == null ? null : Number(product.promo_price);
+ const hasPromo = promo !== null && promo > 0 && promo < price;
+ const name = escapeHTML(product.name);
+ const description = escapeHTML(product.description);
+ const image = product.image_url
+  ? `<img class="product-image" src="${escapeHTML(product.image_url)}" alt="${name}" onerror="this.style.display='none'">`
+  : `<div class="banner"><strong>${name}</strong><span>ACESSO DIGITAL</span><small>ANDROID • PRODUTO DIGITAL</small></div>`;
+
+ const oldPrice = hasPromo
+  ? `<div class="old">${formatPrice(price)} <span class="discount">↓ ${Math.round((1-promo/price)*100)}%</span></div>`
+  : '';
+
+ const displayedPrice = hasPromo ? promo : price;
+ const isV3 = String(product.name).toUpperCase().includes('V3');
+
+ return `
+ <article class="card">
+  ${image}
+  <div class="info">
+   <div class="name">${name}</div>
+   ${description ? `<div class="description">${description}</div>` : ''}
+   ${oldPrice}
+   <div class="price">${formatPrice(displayedPrice)}</div>
+   <div class="pix">À vista no PIX</div>
+   <div class="buttons">
+    <button class="buy" onclick="${isV3 ? 'openPix()' : 'notConfigured()'}">Comprar</button>
+    <button class="download" onclick="downloadNotice()">⇩</button>
+   </div>
+  </div>
+ </article>`;
+}
+
+async function loadProducts(){
+ const container = document.getElementById('products');
+ const {data, error} = await supabaseClient
+  .from('products')
+  .select('id,name,description,price,image_url,promo_price,published,created_at')
+  .eq('published', true)
+  .order('created_at', {ascending:true});
+
+ if(error){
+  console.error('Erro ao carregar produtos:', error);
+  container.innerHTML = '<div class="status-message">Não foi possível carregar os produtos. Verifique as permissões da tabela no Supabase.</div>';
+  return;
+ }
+
+ if(!data || data.length === 0){
+  container.innerHTML = '<div class="status-message">Nenhum produto publicado foi encontrado.</div>';
+  return;
+ }
+
+ container.innerHTML = data.map(renderProduct).join('');
+}
+
 function openPix(){
  document.getElementById('pixModal').style.display='flex';
 }
 function closePix(){
  document.getElementById('pixModal').style.display='none';
+}
+function notConfigured(){
+ alert('O pagamento deste produto ainda não está configurado. Entre em contato com o suporte da loja.');
+}
+function downloadNotice(){
+ alert('O download será disponibilizado após a confirmação do pagamento pela loja.');
 }
 async function copyPix(){
  const field=document.getElementById('pixCode');
@@ -241,6 +262,8 @@ async function copyPix(){
   document.getElementById('copyMessage').textContent='Código selecionado para copiar. Cole no aplicativo do seu banco.';
  }
 }
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+loadProducts();
+</script>
 </body>
 </html>
