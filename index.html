@@ -73,10 +73,10 @@ h2:after{
 .info{padding:12px}
 .name{font-size:18px;line-height:1.35;min-height:48px}
 .description{color:#bbb;font-size:14px;margin-top:8px}
-.old{color:#aaa;text-decoration:line-through;margin-top:15px}
-.discount{color:#00ed9b;background:#00291d;padding:5px 8px;border-radius:7px;margin-left:8px}
-.price{font-size:25px;margin-top:7px}
-.pix{color:#bbb;font-size:14px;margin-top:5px}
+.old{color:#aaa;text-decoration:line-through;margin-top:12px;font-size:13px}
+.discount{color:#00ed9b;background:#00291d;padding:4px 7px;border-radius:7px;margin-left:6px;font-size:12px}
+.price{font-size:20px;margin-top:7px;font-weight:bold}
+.pix{color:#bbb;font-size:13px;margin-top:5px}
 .buttons{display:flex;gap:8px;margin-top:15px}
 .buy,.download{
  border:0;border-radius:12px;background:linear-gradient(90deg,#7900df,#a000ff);
@@ -87,36 +87,13 @@ h2:after{
 .status-message{
  text-align:center;padding:25px;color:#ddd;grid-column:1/-1;
 }
-.pix-modal{
- display:none;position:fixed;inset:0;z-index:999;
- background:rgba(0,0,0,.88);
- align-items:center;justify-content:center;padding:18px;
-}
-.pix-box{
- width:100%;max-width:420px;background:#100719;
- border:1px solid #a000ff;border-radius:18px;
- padding:22px;box-shadow:0 0 25px #7900d9;
-}
-.pix-box h3{text-align:center;margin-top:0;color:#d58aff}
-.pix-value{text-align:center;font-size:30px;font-weight:bold;margin:18px 0}
-.pix-code{
- width:100%;height:105px;resize:none;
- background:#08050c;color:white;border:1px solid #7900d9;
- border-radius:9px;padding:10px;font-size:12px;
-}
-.copy-pix,.close-pix{
- width:100%;padding:14px;margin-top:12px;border:0;
- border-radius:10px;font-weight:bold;font-size:16px;
-}
-.copy-pix{background:#a000ff;color:white}
-.close-pix{background:#30213b;color:white}
-.pix-note{text-align:center;color:#ccc;font-size:13px;line-height:1.5}
 footer{text-align:center;color:#aaa;padding:35px 10px}
 @media(max-width:380px){
  .logo{font-size:15px}.search{padding:10px}
  .banner{height:120px}.banner strong{font-size:20px}
  .name{font-size:15px}.info{padding:9px}
  .buy{font-size:14px}
+ .price{font-size:18px}
 }
 </style>
 </head>
@@ -145,24 +122,13 @@ footer{text-align:center;color:#aaa;padding:35px 10px}
  </section>
 </main>
 
-<div class="pix-modal" id="pixModal">
- <div class="pix-box">
-  <h3>Pagamento via Pix</h3>
-  <p class="pix-note">PROXY ANDROID V3</p>
-  <div class="pix-value">R$ 24,90</div>
-  <p class="pix-note">Copie o código abaixo e cole no aplicativo do seu banco.</p>
-  <textarea class="pix-code" id="pixCode" readonly>00020126360014BR.GOV.BCB.PIX0114+5531989316383520400005303986540524.905802BR5924Gabriel Augusto da Silva6009SAO PAULO6214051078kg8me19M63043EA3</textarea>
-  <button class="copy-pix" onclick="copyPix()">COPIAR CÓDIGO PIX</button>
-  <p class="pix-note" id="copyMessage">Após pagar, aguarde a conferência e aprovação manual da loja.</p>
-  <button class="close-pix" onclick="closePix()">Fechar</button>
- </div>
-</div>
-
 <footer>© 2026 URIEL XIT OFC — Todos os direitos reservados.</footer>
 
 <script>
 const SUPABASE_URL = 'https://uvmlovadmbyiuvjogepv.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_4eUg8dwrnmVZCcCQiEANvA_DgXwvOST';
+
+const PIX_URL = 'https://nubank.com.br/cobrar/3d51nu/6b099831-ee8a-412b-8c7b-4e7ea8e34379';
 
 const supabaseClient = window.supabase.createClient(
  SUPABASE_URL,
@@ -182,12 +148,18 @@ function formatPrice(value){
  });
 }
 
+function openPix(){
+ window.location.href = PIX_URL;
+}
+
 function renderProduct(product){
  const price = Number(product.price);
  const promo = product.promo_price == null ? null : Number(product.promo_price);
+
  const hasPromo = promo !== null && promo > 0 && promo < price;
  const name = escapeHTML(product.name);
  const description = escapeHTML(product.description);
+
  const image = product.image_url
   ? `<img class="product-image" src="${escapeHTML(product.image_url)}" alt="${name}" onerror="this.style.display='none'">`
   : `<div class="banner"><strong>${name}</strong><span>ACESSO DIGITAL</span><small>ANDROID • PRODUTO DIGITAL</small></div>`;
@@ -197,7 +169,6 @@ function renderProduct(product){
   : '';
 
  const displayedPrice = hasPromo ? promo : price;
- const isV3 = String(product.name).toUpperCase().includes('V3');
 
  return `
  <article class="card">
@@ -209,7 +180,7 @@ function renderProduct(product){
    <div class="price">${formatPrice(displayedPrice)}</div>
    <div class="pix">À vista no PIX</div>
    <div class="buttons">
-    <button class="buy" onclick="${isV3 ? 'openPix()' : 'notConfigured()'}">Comprar</button>
+    <button class="buy" onclick="openPix()">Comprar</button>
     <button class="download" onclick="downloadNotice()">⇩</button>
    </div>
   </div>
@@ -218,6 +189,7 @@ function renderProduct(product){
 
 async function loadProducts(){
  const container = document.getElementById('products');
+
  const {data, error} = await supabaseClient
   .from('products')
   .select('id,name,description,price,image_url,promo_price,published,created_at')
@@ -238,29 +210,8 @@ async function loadProducts(){
  container.innerHTML = data.map(renderProduct).join('');
 }
 
-function openPix(){
- document.getElementById('pixModal').style.display='flex';
-}
-function closePix(){
- document.getElementById('pixModal').style.display='none';
-}
-function notConfigured(){
- alert('O pagamento deste produto ainda não está configurado. Entre em contato com o suporte da loja.');
-}
 function downloadNotice(){
  alert('O download será disponibilizado após a confirmação do pagamento pela loja.');
-}
-async function copyPix(){
- const field=document.getElementById('pixCode');
- try{
-  await navigator.clipboard.writeText(field.value);
-  document.getElementById('copyMessage').textContent='Código Pix copiado! Agora cole no aplicativo do seu banco.';
- }catch(e){
-  field.select();
-  field.setSelectionRange(0,field.value.length);
-  document.execCommand('copy');
-  document.getElementById('copyMessage').textContent='Código selecionado para copiar. Cole no aplicativo do seu banco.';
- }
 }
 
 loadProducts();
