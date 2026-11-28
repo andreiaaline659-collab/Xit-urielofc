@@ -1,358 +1,477 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080b14">
-<title>FREEARD OFC</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-:root{
-  --bg:#080b14;
-  --surface:#101522;
-  --surface-2:#151d2d;
-  --line:#26334a;
-  --text:#f5f7fb;
-  --muted:#aab5c7;
-  --blue:#1677ff;
-  --blue-2:#0759d5;
-  --purple:#a000b5;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-  background:
-    radial-gradient(circle at 15% 10%,rgba(22,119,255,.13),transparent 28rem),
-    radial-gradient(circle at 90% 35%,rgba(22,119,255,.08),transparent 25rem),
-    var(--bg);
-}
-.announcement{
-  min-height:36px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:8px 12px;
-  color:#fff;
-  background:linear-gradient(90deg,#0759d5,#1677ff,#0759d5);
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:.5px;
-  text-align:center;
-}
-header{
-  position:sticky;
-  top:0;
-  z-index:10;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:13px max(15px,calc((100% - 1050px)/2));
-  background:rgba(8,11,20,.96);
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(12px);
-}
-.brand{display:flex;align-items:center;gap:10px;min-width:0}
-.avatar{
-  width:46px;height:46px;flex:0 0 46px;
-  display:grid;place-items:center;
-  border-radius:50%;
-  overflow:hidden;
-  color:#fff;
-  font-weight:900;font-size:22px;
-  background:linear-gradient(145deg,#268bff,#1045bd 60%,#1677ff);
-  border:2px solid rgba(255,255,255,.22);
-  box-shadow:0 0 18px rgba(22,119,255,.28);
-}
-.avatar img{width:100%;height:100%;object-fit:cover}
-.brand-name{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  flex-wrap:wrap;
-  font-size:18px;
-  font-weight:900;
-  letter-spacing:.3px;
-}
-.verified-badge{
-  width:22px;height:22px;display:inline-block;vertical-align:middle;flex-shrink:0;
-}
-.brand-sub{margin-top:3px;color:var(--muted);font-size:11px}
-.header-actions{display:flex;align-items:center;gap:8px}
-.icon-button,.login-button{
-  min-width:40px;height:40px;
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  border:1px solid var(--line);border-radius:12px;
-  color:#fff;background:var(--surface-2);
-  font-size:18px;text-decoration:none;cursor:pointer;
-}
-.icon-button svg,.buy svg{display:block}
-.cart-button{
-  position:relative;
-  width:54px;height:54px;min-width:54px;
-  border:0;border-radius:50%;
-  color:#fff;background:#1749b9;
-  box-shadow:0 5px 16px rgba(23,73,185,.28);
-}
-.cart-button svg{width:25px;height:25px}
-.login-button{padding:0 12px;font-size:13px;font-weight:800}
-.cart-count{
-  position:absolute;top:-3px;right:-3px;
-  display:inline-grid;place-items:center;
-  min-width:18px;height:18px;padding:0 4px;
-  border:2px solid var(--bg);
-  border-radius:20px;background:var(--blue);
-  font-size:10px;font-weight:800;
-}
-main{max-width:1050px;margin:auto;padding:22px 15px 40px}
-.welcome{
-  display:flex;align-items:center;gap:15px;
-  padding:19px;border:1px solid var(--line);border-radius:18px;
-  background:linear-gradient(120deg,rgba(22,119,255,.14),rgba(22,119,255,.08)),var(--surface);
-  margin-bottom:27px;
-}
-.welcome h1{margin:0 0 6px;font-size:22px}
-.welcome p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
-.section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 13px}
-.section-heading h2{margin:0;font-size:20px}
-.section-heading span{color:var(--muted);font-size:12px}
-.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.card{
-  min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:15px;
-  background:linear-gradient(180deg,#141c2b,#0e1420);
-  box-shadow:0 6px 18px rgba(0,0,0,.2);
-}
-.product-image,.image-placeholder{
-  display:block;width:100%;aspect-ratio:16/9;object-fit:cover;
-  background:#111b2b;border-bottom:1px solid var(--line);
-}
-.image-placeholder{
-  display:flex;align-items:center;justify-content:center;flex-direction:column;
-  gap:8px;padding:12px;text-align:center;
-  background:radial-gradient(circle at 50% 35%,#264b85,#111827 65%);
-}
-.placeholder-symbol{font-size:32px}
-.image-placeholder strong{font-size:13px;overflow-wrap:anywhere}
-.image-placeholder small{color:#c3d3eb;font-size:10px;letter-spacing:1px}
-.info{padding:10px}
-.name{
-  min-height:0;
-  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
-  overflow:hidden;
-  font-size:14px;font-weight:800;line-height:1.35;overflow-wrap:anywhere;
-}
-.description{
-  margin-top:5px;color:var(--muted);font-size:11px;line-height:1.35;
-  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;
-}
-.old{
-  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-  margin-top:9px;color:#9ca8bb;text-decoration:line-through;font-size:11px;
-}
-.discount{
-  display:inline-block;margin-left:0;padding:4px 6px;border-radius:6px;
-  color:#a8ffd9;background:#073c2a;font-size:10px;font-weight:800;
-  text-decoration:none;line-height:1.1;
-}
-.price{margin-top:6px;font-size:18px;font-weight:900}
-.pix{margin-top:3px;color:var(--muted);font-size:11px}
-.buttons{display:flex;gap:8px;margin-top:11px}
-.buy{
-  min-height:42px;width:100%;flex:1;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  border:0;border-radius:9px;color:#fff;
-  background:linear-gradient(100deg,#9400ad,var(--purple));
-  font-size:13px;font-weight:900;cursor:pointer;
-}
-.buy svg{width:25px;height:25px;flex:0 0 25px}
-.status-message{
-  grid-column:1/-1;padding:28px 15px;color:var(--muted);text-align:center;
-  border:1px dashed var(--line);border-radius:14px
-}
-footer{padding:25px 12px;color:var(--muted);text-align:center;font-size:12px;border-top:1px solid var(--line)}
-@media(min-width:700px){
-  .products{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-}
-@media(max-width:390px){
-  header{padding:10px;gap:7px}
-  .brand{gap:7px}
-  .brand-name{font-size:14px}
-  .verified-badge{width:19px;height:19px}
-  .avatar{width:40px;height:40px;flex-basis:40px}
-  .header-actions{gap:6px}
-  .icon-button{min-width:36px;height:38px}
-  .cart-button{width:48px;height:48px;min-width:48px}
-  .cart-button svg{width:23px;height:23px}
-  .login-button{padding:0 8px;font-size:12px}
-  main{padding:17px 10px 30px}
-  .products{gap:10px}
-  .info{padding:9px}
-  .name{font-size:12px;line-height:1.35}
-  .description{font-size:10px}
-  .price{font-size:17px}
-  .buy{min-height:39px;font-size:11px;gap:7px}
-  .buy svg{width:22px;height:22px;flex-basis:22px}
-  .welcome{padding:14px}
-  .welcome h1{font-size:18px}
-}
-</style>
-</head>
-
-<body>
-<div class="announcement">
-VENDEDOR VERIFICADO • TODOS OS XIT SÃO PERMANENTES!<br>
-SE NÃO FUNCIONAR, REEMBOLSO DO DINHEIRO!
+<!DOCTYPE html>  <html lang="pt-BR">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<meta name="theme-color" content="#080b14">  
+<title>FREEARD OFC</title>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>  
+:root{  
+  --bg:#080b14;  
+  --surface:#101522;  
+  --surface-2:#151d2d;  
+  --line:#26334a;  
+  --text:#f5f7fb;  
+  --muted:#aab5c7;  
+  --blue:#1677ff;  
+  --blue-2:#0759d5;  
+}  
+*{box-sizing:border-box}  
+body{  
+  margin:0;  
+  color:var(--text);  
+  font-family:Arial,Helvetica,sans-serif;  
+  background:  
+    radial-gradient(circle at 15% 10%,rgba(22,119,255,.13),transparent 28rem),  
+    radial-gradient(circle at 90% 35%,rgba(22,119,255,.08),transparent 25rem),  
+    var(--bg);  
+}  
+.announcement{  
+  min-height:36px;  
+  display:flex;  
+  align-items:center;  
+  justify-content:center;  
+  padding:8px 12px;  
+  color:#fff;  
+  background:linear-gradient(90deg,#0759d5,#1677ff,#0759d5);  
+  font-size:12px;  
+  font-weight:800;  
+  letter-spacing:.5px;  
+  text-align:center;  
+}  
+header{  
+  position:sticky;  
+  top:0;  
+  z-index:10;  
+  display:flex;  
+  align-items:center;  
+  justify-content:space-between;  
+  gap:12px;  
+  padding:13px max(15px,calc((100% - 1050px)/2));  
+  background:rgba(8,11,20,.96);  
+  border-bottom:1px solid var(--line);  
+  backdrop-filter:blur(12px);  
+}  
+.brand{  
+  display:flex;  
+  align-items:center;  
+  gap:9px;  
+  min-width:0;  
+}  
+.avatar{  
+  width:43px;  
+  height:43px;  
+  flex:0 0 43px;  
+  border-radius:50%;  
+  overflow:hidden;  
+  border:2px solid rgba(255,255,255,.22);  
+  box-shadow:0 0 18px rgba(22,119,255,.28);  
+}  
+.avatar img{  
+  display:block;  
+  width:100%;  
+  height:100%;  
+  object-fit:cover;  
+}  
+.brand-name{  
+  display:flex;  
+  align-items:center;  
+  gap:5px;  
+  white-space:nowrap;  
+  font-size:16px;  
+  font-weight:900;  
+  letter-spacing:.2px;  
+}  
+.verified-badge{  
+  display:block;  
+  width:20px;  
+  height:20px;  
+  flex:0 0 20px;  
+  shape-rendering:geometricPrecision;  
+}  
+.brand-sub{  
+  margin-top:3px;  
+  color:var(--muted);  
+  font-size:10px;  
+}  
+.header-actions{  
+  display:flex;  
+  align-items:center;  
+  gap:7px;  
+}  
+.icon-button,.login-button{  
+  min-width:38px;  
+  height:38px;  
+  display:inline-flex;  
+  align-items:center;  
+  justify-content:center;  
+  gap:6px;  
+  border:1px solid var(--line);  
+  border-radius:11px;  
+  color:#fff;  
+  background:var(--surface-2);  
+  font-size:17px;  
+  text-decoration:none;  
+  cursor:pointer;  
+}  
+.login-button{  
+  padding:0 11px;  
+  font-size:12px;  
+  font-weight:800;  
+}  
+.cart-count{  
+  display:inline-grid;  
+  place-items:center;  
+  min-width:17px;  
+  height:17px;  
+  padding:0 4px;  
+  border-radius:20px;  
+  background:var(--blue);  
+  font-size:10px;  
+  font-weight:800;  
+}  
+main{  
+  max-width:1050px;  
+  margin:auto;  
+  padding:22px 15px 40px;  
+}  
+.welcome{  
+  display:flex;  
+  align-items:center;  
+  gap:15px;  
+  padding:19px;  
+  border:1px solid var(--line);  
+  border-radius:18px;  
+  background:linear-gradient(120deg,rgba(22,119,255,.14),rgba(22,119,255,.08)),var(--surface);  
+  margin-bottom:27px;  
+}  
+.welcome h1{  
+  margin:0 0 6px;  
+  font-size:22px;  
+}  
+.welcome p{  
+  margin:0;  
+  color:var(--muted);  
+  font-size:13px;  
+  line-height:1.45;  
+}  
+.section-heading{  
+  display:flex;  
+  align-items:center;  
+  justify-content:space-between;  
+  gap:12px;  
+  margin:0 0 16px;  
+}  
+.section-heading h2{  
+  margin:0;  
+  font-size:20px;  
+}  
+.section-heading span{  
+  color:var(--muted);  
+  font-size:12px;  
+}  
+.products{  
+  display:grid;  
+  grid-template-columns:repeat(2,minmax(0,1fr));  
+  gap:17px;  
+}  
+.card{  
+  min-width:0;  
+  overflow:hidden;  
+  border:1px solid var(--line);  
+  border-radius:17px;  
+  background:linear-gradient(180deg,#141c2b,#0e1420);  
+  box-shadow:0 8px 25px rgba(0,0,0,.22);  
+}  
+.product-image,.image-placeholder{  
+  display:block;  
+  width:100%;  
+  aspect-ratio:16/9;  
+  object-fit:cover;  
+  background:#111b2b;  
+  border-bottom:1px solid var(--line);  
+}  
+.image-placeholder{  
+  display:flex;  
+  align-items:center;  
+  justify-content:center;  
+  flex-direction:column;  
+  gap:8px;  
+  padding:15px;  
+  text-align:center;  
+  background:radial-gradient(circle at 50% 35%,#264b85,#111827 65%);  
+}  
+.placeholder-symbol{font-size:38px}  
+.image-placeholder strong{  
+  font-size:14px;  
+  overflow-wrap:anywhere;  
+}  
+.image-placeholder small{  
+  color:#c3d3eb;  
+  font-size:10px;  
+  letter-spacing:1px;  
+}  
+.info{padding:13px}  
+.name{  
+  min-height:38px;  
+  font-size:15px;  
+  font-weight:800;  
+  line-height:1.3;  
+  overflow-wrap:anywhere;  
+}  
+.description{  
+  min-height:0;  
+  margin-top:7px;  
+  color:var(--muted);  
+  font-size:12px;  
+  line-height:1.4;  
+}  
+.old{  
+  margin-top:11px;  
+  color:#9ca8bb;  
+  text-decoration:line-through;  
+  font-size:12px;  
+}  
+.discount{  
+  display:inline-block;  
+  margin-left:5px;  
+  padding:4px 6px;  
+  border-radius:6px;  
+  color:#a8ffd9;  
+  background:#073c2a;  
+  font-size:10px;  
+  font-weight:800;  
+  text-decoration:none;  
+}  
+.price{  
+  margin-top:8px;  
+  font-size:19px;  
+  font-weight:900;  
+}  
+.pix{  
+  margin-top:4px;  
+  color:var(--muted);  
+  font-size:11px;  
+}  
+.buttons{  
+  display:flex;  
+  gap:8px;  
+  margin-top:13px;  
+}  
+.buy{  
+  min-height:43px;  
+  width:100%;  
+  border:0;  
+  border-radius:11px;  
+  color:#fff;  
+  background:linear-gradient(100deg,#0759d5,#1685ff);  
+  box-shadow:0 4px 13px rgba(22,119,255,.25);  
+  font-size:13px;  
+  font-weight:900;  
+  cursor:pointer;  
+  transition:filter .2s,transform .2s;  
+}  
+.buy:hover{  
+  filter:brightness(1.12);  
+}  
+.buy:active{  
+  transform:scale(.98);  
+}  
+.status-message{  
+  grid-column:1/-1;  
+  padding:28px 15px;  
+  color:var(--muted);  
+  text-align:center;  
+  border:1px dashed var(--line);  
+  border-radius:14px;  
+}  
+footer{  
+  padding:25px 12px;  
+  color:var(--muted);  
+  text-align:center;  
+  font-size:12px;  
+  border-top:1px solid var(--line);  
+}  
+@media(min-width:700px){  
+  .products{  
+    grid-template-columns:repeat(3,minmax(0,1fr));  
+    gap:20px;  
+  }  
+}  
+@media(max-width:390px){  
+  header{padding:10px}  
+  .brand-name{font-size:14px}  
+  .verified-badge{  
+    width:19px;  
+    height:19px;  
+    flex-basis:19px;  
+  }  
+  .avatar{  
+    width:39px;  
+    height:39px;  
+    flex-basis:39px;  
+  }  
+  .brand{gap:7px}  
+  .header-actions{gap:5px}  
+  .icon-button{  
+    min-width:34px;  
+    height:36px;  
+  }  
+  .login-button{  
+    padding:0 8px;  
+    height:36px;  
+    font-size:11px;  
+  }  
+  main{padding:17px 10px 30px}  
+  .products{gap:11px}  
+  .info{padding:10px}  
+  .name{font-size:13px}  
+  .price{font-size:17px}  
+  .buy{font-size:11px}  
+  .welcome{padding:14px}  
+  .welcome h1{font-size:18px}  
+}  
+</style>  </head>  <body>  <div class="announcement">  
+VENDEDOR VERIFICADO • TODOS OS XIT SÃO PERMANENTES!<br>  
+SE NÃO FUNCIONAR, REEMBOLSO DO DINHEIRO!  
+</div>  <header>  
+  <div class="brand">  
+    <div class="avatar">  
+      <img  
+        src="https://i.postimg.cc/9FFyk8pg/Screenshot-2026-11-14-22-33-09-484-com-instagram-android.jpg"  
+        alt="Foto de perfil FREEARD OFC"  
+      >  
+    </div>  <div>  
+  <div class="brand-name">  
+    FREEARD OFC  
+    <svg class="verified-badge" viewBox="0 0 48 48" role="img" aria-label="Selo visual personalizado">  
+      <path  
+        d="M24 2 L29 7 L36 5 L39 12 L46 16 L43 24 L46 32 L39 36 L36 43 L29 41 L24 46 L19 41 L12 43 L9 36 L2 32 L5 24 L2 16 L9 12 L12 5 L19 7 Z"  
+        fill="#1877F2"  
+      />  
+      <path  
+        d="M14 24 L21 31 L35 17"  
+        fill="none"  
+        stroke="#FFFFFF"  
+        stroke-width="4.5"  
+        stroke-linecap="round"  
+        stroke-linejoin="round"  
+      />  
+    </svg>  
+  </div>  
+  <div class="brand-sub">Contas e ferramentas para Free Fire</div>  
 </div>
 
-<header>
-  <div class="brand">
-    <div class="avatar" aria-label="Foto do perfil">F</div>
-    <div>
-      <div class="brand-name">
-        FREEARD OFC
-        <svg class="verified-badge" viewBox="0 0 48 48" role="img" aria-label="Selo visual personalizado">
-          <path d="M24 2 L29 7 L36 5 L39 12 L46 16 L43 24 L46 32 L39 36 L36 43 L29 41 L24 46 L19 41 L12 43 L9 36 L2 32 L5 24 L2 16 L9 12 L12 5 L19 7 Z" fill="#1877F2"/>
-          <path d="M14 24 L21 31 L35 17" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="brand-sub">Contas e ferramentas para Free Fire</div>
-    </div>
-  </div>
-
-  <div class="header-actions">
-    <button class="icon-button" type="button" aria-label="Pesquisar" onclick="searchNotice()">⌕</button>
-    <button class="icon-button" type="button" aria-label="Minha conta" onclick="alert('Área de login em breve!')">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="8" r="4"></circle><path d="M4 21c.7-4 3.4-6 8-6s7.3 2 8 6"></path>
-      </svg>
-    </button>
-    <button class="icon-button cart-button" type="button" aria-label="Carrinho" onclick="cartNotice()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle>
-        <path d="M2 3h2l2.4 12.1a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6L22 7H5"></path>
-      </svg>
-      <span class="cart-count" id="cartCount">0</span>
-    </button>
-  </div>
-</header>
-
-<main>
-  <section class="welcome">
-    <div>
-      <h1>Bem-vindo à FREEARD OFC</h1>
-      <p>Confira nossos produtos e escolha sua oferta.</p>
-    </div>
-  </section>
-
-  <div class="section-heading">
-    <h2>Produtos em destaque</h2>
-    <span>Ofertas disponíveis</span>
-  </div>
-
-  <section class="products" id="products">
-    <div class="status-message">Carregando produtos...</div>
-  </section>
-</main>
-
-<footer>© 2026 FREEARD OFC — Todos os direitos reservados.</footer>
-
-<script>
-const SUPABASE_URL = 'https://uvmlovadmbyiuvjogepv.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_4eUg8dwrnmVZCcCQiEANvA_DgXwvOST';
-
-const PIX_URL = 'https://nubank.com.br/cobrar/3d51nu/6b099831-ee8a-412b-8c7b-4e7ea8e34379';
-
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-function escapeHTML(value){
-  return String(value ?? '').replace(/[&<>"']/g, char => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[char]));
-}
-
-function formatPrice(value){
-  return Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-}
-
-function openPix(){
-  window.location.href = PIX_URL;
-}
-
-function searchNotice(){
-  alert('A pesquisa será disponibilizada em breve!');
-}
-
-function cartNotice(){
-  alert('O carrinho visual está pronto. A função de adicionar produtos ainda precisa ser integrada.');
-}
-
-function renderProduct(product){
-  const price = Number(product.price);
-  const promo = product.promo_price == null ? null : Number(product.promo_price);
-  const hasPromo = promo !== null && promo > 0 && promo < price;
-  const name = escapeHTML(product.name);
-  const description = escapeHTML(product.description);
-
-  const image = product.image_url
-    ? `<img class="product-image" src="${escapeHTML(product.image_url)}" alt="${name}" loading="lazy" onerror="this.outerHTML='<div class=&quot;image-placeholder&quot;><span class=&quot;placeholder-symbol&quot;>⚡</span><strong>${name}</strong><small>FREEARD OFC</small></div>'">`
-    : `<div class="image-placeholder"><span class="placeholder-symbol">⚡</span><strong>${name}</strong><small>FREEARD OFC</small></div>`;
-
-  const oldPrice = hasPromo
-    ? `<div class="old">${formatPrice(price)} <span class="discount">↘ ${Math.round((1-promo/price)*100)}%</span></div>`
-    : '';
-
-  const displayedPrice = hasPromo ? promo : price;
-
-  return `
-    <article class="card">
-      ${image}
-      <div class="info">
-        <div class="name">${name}</div>
-        ${description ? `<div class="description">${description}</div>` : ''}
-        ${oldPrice}
-        <div class="price">${formatPrice(displayedPrice)}</div>
-        <div class="pix">À vista no Pix</div>
-        <div class="buttons">
-          <button class="buy" type="button" onclick="openPix()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle>
-              <path d="M2 3h2l2.4 12.1a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6L22 7H5"></path>
-            </svg>
-            <span>Comprar agora</span>
-          </button>
-        </div>
-      </div>
-    </article>`;
-}
-
-async function loadProducts(){
-  const container = document.getElementById('products');
-
-  const {data, error} = await supabaseClient
-    .from('products')
-    .select('id,name,description,price,image_url,promo_price,published,created_at')
-    .eq('published', true)
-    .order('created_at', {ascending:true});
-
-  if(error){
-    console.error('Erro ao carregar produtos:', error);
-    container.innerHTML = '<div class="status-message">Não foi possível carregar os produtos. Verifique as permissões da tabela no Supabase.</div>';
-    return;
-  }
-
-  if(!data || data.length === 0){
-    container.innerHTML = '<div class="status-message">Nenhum produto publicado foi encontrado.</div>';
-    return;
-  }
-
-  container.innerHTML = data.map(renderProduct).join('');
-}
-
-loadProducts();
-</script>
-</body>
-</html>
+  </div>    <div class="header-actions">  
+    <button class="icon-button" type="button" aria-label="Pesquisar" onclick="searchNotice()">⌕</button>  
+    <button class="icon-button" type="button" aria-label="Carrinho" onclick="cartNotice()">🛒 <span class="cart-count" id="cartCount">0</span></button>  
+    <button class="login-button" type="button" onclick="alert('Área de login em breve!')">Entrar</button>  
+  </div>  
+</header>  <main>  
+  <section class="welcome">  
+    <div>  
+      <h1>Bem-vindo à FREEARD OFC</h1>  
+      <p>Confira nossos produtos e escolha sua oferta.</p>  
+    </div>  
+  </section>    <div class="section-heading">  
+    <h2>Produtos em destaque</h2>  
+    <span>Ofertas disponíveis</span>  
+  </div>    <section class="products" id="products">  
+    <div class="status-message">Carregando produtos...</div>  
+  </section>  
+</main>  <footer>© 2026 FREEARD OFC — Todos os direitos reservados.</footer>  <script>  
+const SUPABASE_URL = 'https://uvmlovadmbyiuvjogepv.supabase.co';  
+const SUPABASE_KEY = 'sb_publishable_4eUg8dwrnmVZCcCQiEANvA_DgXwvOST';  
+  
+const PIX_URL = 'https://nubank.com.br/cobrar/3d51nu/6b099831-ee8a-412b-8c7b-4e7ea8e34379';  
+  
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);  
+  
+function escapeHTML(value){  
+  return String(value ?? '').replace(/[&<>"']/g, char => ({  
+    '&':'&amp;',  
+    '<':'&lt;',  
+    '>':'&gt;',  
+    '"':'&quot;',  
+    "'":'&#39;'  
+  }[char]));  
+}  
+  
+function formatPrice(value){  
+  return Number(value).toLocaleString('pt-BR',{  
+    style:'currency',  
+    currency:'BRL'  
+  });  
+}  
+  
+function openPix(){  
+  window.location.href = PIX_URL;  
+}  
+  
+function searchNotice(){  
+  alert('A pesquisa será disponibilizada em breve!');  
+}  
+  
+function cartNotice(){  
+  alert('O carrinho visual está pronto. A função de adicionar produtos ainda precisa ser integrada.');  
+}  
+  
+function renderProduct(product){  
+  const price = Number(product.price);  
+  const promo = product.promo_price == null ? null : Number(product.promo_price);  
+  const hasPromo = promo !== null && promo > 0 && promo < price;  
+  const name = escapeHTML(product.name);  
+  const description = escapeHTML(product.description);  
+  
+  const image = product.image_url  
+    ? `<img class="product-image" src="${escapeHTML(product.image_url)}" alt="${name}" loading="lazy" onerror="this.outerHTML='<div class=&quot;image-placeholder&quot;><span class=&quot;placeholder-symbol&quot;>⚡</span><strong>${name}</strong><small>FREEARD OFC</small></div>'">`  
+    : `<div class="image-placeholder"><span class="placeholder-symbol">⚡</span><strong>${name}</strong><small>FREEARD OFC</small></div>`;  
+  
+  const oldPrice = hasPromo  
+    ? `<div class="old">${formatPrice(price)} <span class="discount">-${Math.round((1-promo/price)*100)}%</span></div>`  
+    : '';  
+  
+  const displayedPrice = hasPromo ? promo : price;  
+  
+  return `  
+    <article class="card">  
+      ${image}  
+      <div class="info">  
+        <div class="name">${name}</div>  
+        ${description ? `<div class="description">${description}</div>` : ''}  
+        ${oldPrice}  
+        <div class="price">${formatPrice(displayedPrice)}</div>  
+        <div class="pix">À vista no PIX</div>  
+        <div class="buttons">  
+          <button class="buy" type="button" onclick="openPix()">  
+            🛒 COMPRAR AGORA  
+          </button>  
+        </div>  
+      </div>  
+    </article>`;  
+}  
+  
+async function loadProducts(){  
+  const container = document.getElementById('products');  
+  
+  const {data, error} = await supabaseClient  
+    .from('products')  
+    .select('id,name,description,price,image_url,promo_price,published,created_at')  
+    .eq('published', true)  
+    .order('created_at', {ascending:true});  
+  
+  if(error){  
+    console.error('Erro ao carregar produtos:', error);  
+    container.innerHTML = '<div class="status-message">Não foi possível carregar os produtos. Verifique as permissões da tabela no Supabase.</div>';  
+    return;  
+  }  
+  
+  if(!data || data.length === 0){  
+    container.innerHTML = '<div class="status-message">Nenhum produto publicado foi encontrado.</div>';  
+    return;  
+  }  
+  
+  container.innerHTML = data.map(renderProduct).join('');  
+}  
+  
+loadProducts();  
+</script>  </body>  
+</html>  
