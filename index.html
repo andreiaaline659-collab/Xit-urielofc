@@ -1,273 +1,631 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#09090c">
-<meta name="description" content="FREEARD OFC — produtos digitais. Confira os produtos disponíveis.">
+<meta name="description" content="FREEARD OFC — Loja de produtos digitais.">
 <title>FREEARD OFC</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
-  /* Roxo continua sendo a identidade; vermelho entra como destaque */
-  --bg:#09090c;
-  --surface:#111116;
-  --surface-2:#17171d;
-  --line:rgba(151,105,180,.25);
-  --purple:#8500dc;
-  --purple-light:#a33bea;
-  --red:#e32636;
-  --red-dark:#a91020;
+  --bg:#08080b;
+  --surface:#101014;
+  --surface2:#15151b;
+  --line:rgba(255,255,255,.09);
+  --purple:#7800bd;
+  --red:#e51c30;
+  --red-dark:#b51225;
   --text:#f5f3f7;
-  --muted:#aaa5b0;
+  --muted:#99949f;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   margin:0;
   color:var(--text);
-  font-family:Inter,Arial,Helvetica,sans-serif;
   background:var(--bg);
+  font-family:Inter,Arial,Helvetica,sans-serif;
 }
-button{font:inherit}
+
+button{
+  font:inherit;
+}
+
+/* AVISO SUPERIOR */
+
 .announcement{
-  min-height:32px;
+  min-height:34px;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:5px 10px;
+  padding:6px 10px;
+  text-align:center;
   color:#fff;
-  background:linear-gradient(90deg,#6500a8 0%,#8200c8 48%,#6500a8 100%);
-  border-bottom:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(100deg,#a20d21,#e51c30,#a20d21);
   font-size:10px;
   font-weight:800;
-  letter-spacing:.35px;
-  line-height:1.45;
-  text-align:center;
+  line-height:1.5;
+  letter-spacing:.3px;
 }
-header{
-  position:sticky;
-  top:0;
-  z-index:10;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  max-width:1160px;
-  margin:auto;
-  padding:7px 10px;
-  background:rgba(9,9,12,.94);
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(14px);
-}
+
+/* CABEÇALHO */
+
 .header-shell{
   position:sticky;
   top:0;
   z-index:10;
-  background:rgba(9,9,12,.94);
-  border-bottom:1px solid var(--line);
+  background:rgba(8,8,11,.96);
+  border-bottom:1px solid rgba(229,28,48,.20);
   backdrop-filter:blur(14px);
 }
-.header-shell header{position:static;border:0;background:transparent;backdrop-filter:none}
-.brand{display:flex;align-items:center;gap:7px;min-width:0}
+
+header{
+  max-width:1160px;
+  margin:auto;
+  padding:9px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-width:0;
+}
+
 .avatar{
-  width:30px;height:30px;flex:0 0 30px;
-  border-radius:7px;overflow:hidden;
-  border:1px solid rgba(255,255,255,.13);
-  background:#17121d;
+  width:35px;
+  height:35px;
+  flex:0 0 35px;
+  border-radius:9px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:#15151b;
 }
-.avatar img{display:block;width:100%;height:100%;object-fit:cover}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+
 .brand-name{
-  display:flex;align-items:center;gap:7px;
-  white-space:nowrap;font-size:12px;font-weight:900;letter-spacing:.1px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
+  font-size:14px;
+  font-weight:900;
 }
-.verified-badge{display:block;width:16px;height:16px;flex:0 0 16px}
-.brand-sub{margin-top:2px;color:var(--muted);font-size:7px;letter-spacing:.25px}
-.header-actions{display:flex;align-items:center;gap:5px}
-.icon-button,.login-button{
-  min-width:32px;height:32px;
-  display:inline-flex;align-items:center;justify-content:center;
+
+.verified-badge{
+  width:16px;
+  height:16px;
+  flex:0 0 16px;
+}
+
+.brand-sub{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:.35px;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.icon-button,
+.login-button{
+  width:37px;
+  height:37px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   border:1px solid rgba(255,255,255,.11);
-  border-radius:8px;color:#f7f4fa;background:#111114;
-  text-decoration:none;cursor:pointer;
-  transition:border-color .2s,background .2s,transform .2s;
+  border-radius:10px;
+  color:white;
+  background:#111116;
+  cursor:pointer;
+  transition:.2s;
 }
-.icon-button svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.icon-button:hover,.login-button:hover{border-color:rgba(163,59,234,.7);background:#1b1721}
-.cart-button{border-color:rgba(133,0,220,.45);color:#d7a6ff}
-.login-button{min-width:54px;padding:0 8px;font-size:9px;font-weight:800}
-main{max-width:1160px;margin:auto;padding:15px 10px 26px}
+
+.icon-button svg{
+  width:19px;
+  height:19px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.icon-button:hover{
+  border-color:var(--red);
+}
+
+.cart-button{
+  color:#fff;
+  background:var(--red);
+  border-color:var(--red);
+}
+
+.cart-button:hover{
+  background:var(--red-dark);
+}
+
+.login-button{
+  width:auto;
+  min-width:65px;
+  padding:0 12px;
+  font-size:11px;
+  font-weight:800;
+}
+
+/* CONTEÚDO */
+
+main{
+  max-width:1160px;
+  margin:auto;
+  padding:19px 14px 30px;
+}
+
 .intro{
-  display:flex;align-items:flex-end;justify-content:space-between;
-  gap:8px;margin:0 2px 10px;
+  margin:0 2px 15px;
 }
-.section-heading{min-width:0}
+
 .section-heading h2{
-  margin:0;font-size:clamp(15px,2.5vw,20px);font-weight:900;
-  text-transform:uppercase;line-height:1.25;letter-spacing:.1px;
+  margin:0;
+  font-size:clamp(15px,2.5vw,20px);
+  font-weight:900;
+  line-height:1.35;
+  text-transform:uppercase;
 }
-.section-heading p{margin:5px 0 0;color:var(--muted);font-size:10px;line-height:1.4}
+
+.section-heading p{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:11px;
+}
+
 .section-mark{
-  width:30px;height:2px;margin-top:8px;border-radius:9px;
+  width:43px;
+  height:3px;
+  margin-top:11px;
+  border-radius:10px;
   background:linear-gradient(90deg,var(--red),var(--purple));
 }
+
+/* GRADE DE PRODUTOS */
+
 .products{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:8px;
+  gap:12px;
 }
+
+/* CARTÃO */
+
 .card{
-  min-width:0;overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:9px;
-  background:#0e0e12;
-  box-shadow:0 3px 10px rgba(0,0,0,.22);
+  min-width:0;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:12px;
+  background:linear-gradient(145deg,#111116,#0b0b0f);
   transition:border-color .2s;
 }
+
 .card:hover{
-  border-color:rgba(163,59,234,.55);
+  border-color:rgba(229,28,48,.55);
 }
+
+/* IMAGENS */
+
 .image-wrap{
-  position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;
-  background:#17131b;border-bottom:1px solid rgba(255,255,255,.07);
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  background:#17131b;
+  border-bottom:1px solid rgba(255,255,255,.07);
 }
-.product-image{display:block;width:100%;height:100%;object-fit:cover;transition:transform .35s}
-.card:hover .product-image{transform:scale(1.025)}
+
+.product-image{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  transition:transform .3s;
+}
+
+.card:hover .product-image{
+  transform:scale(1.025);
+}
+
 .image-placeholder{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  flex-direction:column;gap:8px;padding:12px;text-align:center;
-  background:radial-gradient(circle at 50% 35%,#351344,#111 72%);
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:7px;
+  padding:10px;
+  text-align:center;
+  background:radial-gradient(circle,#32133c,#101014 75%);
 }
-.image-placeholder[hidden]{display:none}
-.placeholder-symbol{font-size:28px}
-.image-placeholder strong{font-size:12px;overflow-wrap:anywhere}
-.image-placeholder small{color:#d4a7ee;font-size:9px;letter-spacing:1px}
-.info{padding:6px}
+
+.image-placeholder[hidden]{
+  display:none;
+}
+
+.placeholder-symbol{
+  font-size:25px;
+}
+
+.image-placeholder strong{
+  font-size:11px;
+  overflow-wrap:anywhere;
+}
+
+.image-placeholder small{
+  color:#d4a7ee;
+  font-size:9px;
+}
+
+/* INFORMAÇÕES */
+
+.info{
+  padding:9px;
+}
+
 .name{
-  min-height:0;font-size:9px;font-weight:800;line-height:1.3;
-  overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;
-  -webkit-box-orient:vertical;overflow:hidden;
+  min-height:27px;
+  font-size:11px;
+  font-weight:800;
+  line-height:1.35;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  overflow-wrap:anywhere;
 }
+
 .description{
-  min-height:0;margin-top:3px;color:var(--muted);font-size:8px;line-height:1.3;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  min-height:32px;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.4;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
 }
-.old{margin-top:5px;color:#928d98;text-decoration:line-through;font-size:8px}
+
+.old{
+  margin-top:7px;
+  color:#918c96;
+  font-size:9px;
+  text-decoration:line-through;
+}
+
 .discount{
-  display:inline-block;margin-left:5px;padding:2px 5px;
-  border:1px solid rgba(227,38,54,.28);border-radius:6px;
-  color:#ff9aa3;background:rgba(227,38,54,.10);
-  font-size:7px;font-weight:800;text-decoration:none;
+  display:inline-block;
+  margin-left:5px;
+  padding:3px 6px;
+  border-radius:6px;
+  color:#ff929b;
+  background:rgba(229,28,48,.12);
+  border:1px solid rgba(229,28,48,.22);
+  font-size:8px;
+  font-weight:800;
+  text-decoration:none;
 }
+
+/* PREÇO */
+
 .price{
-  margin-top:3px;color:#f02b3b;font-size:12px;font-weight:800;
+  margin-top:5px;
+  color:#f02d40;
+  font-size:15px;
+  font-weight:850;
   letter-spacing:.1px;
 }
-.pix{margin-top:2px;color:var(--muted);font-size:7px}
-.buttons{display:flex;gap:5px;margin-top:7px}
+
+.pix{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+/* BOTÃO COMPRAR */
+
+.buttons{
+  display:flex;
+  margin-top:10px;
+}
+
 .buy{
-  min-height:28px;flex:1;min-width:0;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  border:1px solid rgba(255,255,255,.08);border-radius:6px;
-  color:#fff;background:linear-gradient(105deg,#b91529,#e32636 58%,#c51a2d);
-  box-shadow:none;
-  font-size:8px;font-weight:800;cursor:pointer;
-  transition:filter .2s,transform .2s,box-shadow .2s;
+  width:100%;
+  min-height:35px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;
+  color:white;
+  background:linear-gradient(100deg,#bd1529,#ed2639);
+  font-size:10px;
+  font-weight:850;
+  cursor:pointer;
+  transition:filter .2s,transform .2s;
 }
-.buy svg{width:13px;height:13px;flex:0 0 13px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.buy:hover{filter:brightness(1.09);box-shadow:0 6px 16px rgba(180,20,40,.25)}
-.buy:active{transform:scale(.985)}
+
+.buy svg{
+  width:16px;
+  height:16px;
+  flex:0 0 16px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.buy:hover{
+  filter:brightness(1.12);
+}
+
+.buy:active{
+  transform:scale(.98);
+}
+
 .status-message{
-  grid-column:1/-1;padding:28px 14px;color:var(--muted);text-align:center;
-  border:1px dashed rgba(163,59,234,.35);border-radius:12px;
-  background:rgba(20,16,25,.6);font-size:12px;line-height:1.5;
+  grid-column:1/-1;
+  padding:25px 14px;
+  color:var(--muted);
+  text-align:center;
+  border:1px dashed rgba(255,255,255,.15);
+  border-radius:12px;
+  font-size:12px;
 }
+
+/* RODAPÉ */
+
 footer{
-  padding:24px 14px;color:#89838f;text-align:center;
-  font-size:11px;line-height:1.6;border-top:1px solid rgba(255,255,255,.07);
+  padding:25px 14px;
+  color:#89838f;
+  text-align:center;
+  font-size:11px;
+  line-height:1.6;
+  border-top:1px solid var(--line);
 }
-@media(min-width:700px){
-  main{padding-top:24px}
-  .products{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-  .info{padding:9px}
-  .name{font-size:12px}
-  .description{font-size:10px}
-  .price{font-size:16px}
-  .buy{min-height:34px;font-size:10px}
-}
-@media(min-width:1000px){
-  .products{grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
-}
+
+/* CELULARES */
+
 @media(max-width:480px){
-  header{padding:7px 9px}
-  .avatar{width:30px;height:30px;flex-basis:30px}
-  .brand{gap:6px}
-  .brand-name{font-size:12px;gap:4px}
-  .verified-badge{width:14px;height:14px;flex-basis:14px}
-  .brand-sub{font-size:7px}
-  .header-actions{gap:4px}
-  .icon-button,.login-button{height:30px;min-width:30px;border-radius:7px}
-  .icon-button svg{width:15px;height:15px}
-  .login-button{min-width:51px;padding:0 7px;font-size:9px}
-  main{padding:14px 9px 24px}
-  .products{gap:8px}
-  .info{padding:6px}
-  .name{font-size:9px;min-height:0;line-height:1.3}
-  .description{font-size:8px;min-height:0;line-height:1.3}
-  .old{font-size:8px}
-  .discount{font-size:7px;padding:2px 4px}
-  .price{font-size:12px;margin-top:3px}
-  .pix{font-size:7px}
-  .buy{min-height:28px;font-size:8px;gap:4px}
-  .buy svg{width:13px;height:13px;flex-basis:13px}
-  .section-heading h2{font-size:16px}
+
+  header{
+    padding:8px 10px;
+  }
+
+  .avatar{
+    width:34px;
+    height:34px;
+    flex-basis:34px;
+  }
+
+  .brand-name{
+    font-size:12px;
+  }
+
+  .brand-sub{
+    font-size:7px;
+  }
+
+  .header-actions{
+    gap:5px;
+  }
+
+  .icon-button,
+  .login-button{
+    height:34px;
+    min-width:34px;
+    border-radius:9px;
+  }
+
+  .login-button{
+    min-width:57px;
+    font-size:10px;
+    padding:0 8px;
+  }
+
+  .icon-button svg{
+    width:17px;
+    height:17px;
+  }
+
+  main{
+    padding:17px 11px 25px;
+  }
+
+  .products{
+    gap:10px;
+  }
+
+  .info{
+    padding:8px;
+  }
+
+  .name{
+    font-size:10px;
+  }
+
+  .description{
+    font-size:8.5px;
+  }
+
+  .price{
+    font-size:14px;
+  }
+
+  .old{
+    font-size:8px;
+  }
+
+  .discount{
+    font-size:7px;
+    padding:2px 5px;
+  }
+
+  .pix{
+    font-size:8px;
+  }
+
+  .buy{
+    min-height:33px;
+    font-size:9px;
+    gap:6px;
+  }
+
+  .buy svg{
+    width:15px;
+    height:15px;
+    flex-basis:15px;
+  }
+
+  .section-heading h2{
+    font-size:16px;
+  }
 }
+
+/* TELAS MAIORES */
+
+@media(min-width:700px){
+  .products{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:16px;
+  }
+
+  .info{
+    padding:12px;
+  }
+
+  .name{
+    font-size:13px;
+  }
+
+  .description{
+    font-size:11px;
+  }
+
+  .price{
+    font-size:17px;
+  }
+
+  .buy{
+    min-height:39px;
+    font-size:11px;
+  }
+}
+
+@media(min-width:1000px){
+  .products{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+}
+
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
+  *,*::before,*::after{
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
 }
 </style>
 </head>
+
 <body>
 
 <div class="announcement">
-  VENDEDOR VERIFICADO • TODOS OS XIT SÃO PERMANENTES!<br>
+  VENDEDOR VERIFICADO • TODOS OS XIT SÃO PERMANENTES!
+  <br>
   SE NÃO FUNCIONAR, REEMBOLSO DO DINHEIRO!
 </div>
 
 <div class="header-shell">
 <header>
+
   <div class="brand">
+
     <div class="avatar">
-      <img src="https://i.postimg.cc/9FFyk8pg/Screenshot-2026-11-14-22-33-09-484-com-instagram-android.jpg" alt="FREEARD OFC">
+      <img
+        src="https://i.postimg.cc/9FFyk8pg/Screenshot-2026-11-14-22-33-09-484-com-instagram-android.jpg"
+        alt="FREEARD OFC">
     </div>
+
     <div>
-      <div class="brand-name">FREEARD OFC
-        <svg class="verified-badge" viewBox="0 0 48 48" role="img" aria-label="Verificado">
+      <div class="brand-name">
+        FREEARD OFC
+
+        <svg class="verified-badge" viewBox="0 0 48 48">
           <path d="M24 2 L29 7 L36 5 L39 12 L46 16 L43 24 L46 32 L39 36 L36 43 L29 41 L24 46 L19 41 L12 43 L9 36 L2 32 L5 24 L2 16 L9 12 L12 5 L19 7 Z" fill="#1877F2"/>
-          <path d="M14 24 L21 31 L35 17" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 24 L21 31 L35 17" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <div class="brand-sub">LOJA DE PRODUTOS DIGITAIS</div>
+
+      <div class="brand-sub">
+        LOJA DE PRODUTOS DIGITAIS
+      </div>
     </div>
+
   </div>
 
   <div class="header-actions">
+
     <button class="icon-button" type="button" aria-label="Pesquisar" onclick="searchNotice()">
-      <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+      <svg viewBox="0 0 24 24">
+        <circle cx="10.8" cy="10.8" r="6.8"/>
+        <path d="m16 16 5 5"/>
+      </svg>
     </button>
+
     <button class="icon-button cart-button" type="button" aria-label="Sacola" onclick="cartNotice()">
       <svg viewBox="0 0 24 24">
         <path d="M5 8h14l1 13H4L5 8Z"/>
         <path d="M9 9V6a3 3 0 0 1 6 0v3"/>
       </svg>
     </button>
-    <button class="login-button" type="button" onclick="alert('Área de login em breve!')">Entrar</button>
+
+    <button class="login-button" type="button" onclick="alert('Área de login em breve!')">
+      Entrar
+    </button>
+
   </div>
+
 </header>
 </div>
 
 <main>
+
   <div class="intro">
     <div class="section-heading">
       <h2>👇 ANDROID HS SAFE PARA PRINCIPAL 👇</h2>
@@ -279,27 +637,46 @@ footer{
   <section class="products" id="products" aria-live="polite">
     <div class="status-message">Carregando produtos...</div>
   </section>
+
 </main>
 
-<footer>© 2026 FREEARD OFC — Todos os direitos reservados.</footer>
+<footer>
+  © 2026 FREEARD OFC — Todos os direitos reservados.
+</footer>
 
 <script>
 const SUPABASE_URL = 'https://uvmlovadmbyiuvjogepv.supabase.co';
+
 const SUPABASE_KEY = 'sb_publishable_4eUg8dwrnmVZCcCQiEANvA_DgXwvOST';
+
 const PIX_URL = 'https://nubank.com.br/cobrar/3d51nu/6b099831-ee8a-412b-8c7b-4e7ea8e34379';
 
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 function escapeHTML(value){
   return String(value ?? '').replace(/[&<>"']/g, char => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
   }[char]));
 }
 
 function formatPrice(value){
   const number = Number(value);
-  if(!Number.isFinite(number)) return 'Consulte';
-  return number.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+
+  if(!Number.isFinite(number)){
+    return 'Consulte';
+  }
+
+  return number.toLocaleString('pt-BR',{
+    style:'currency',
+    currency:'BRL'
+  });
 }
 
 function openPix(){
@@ -311,52 +688,115 @@ function searchNotice(){
 }
 
 function cartNotice(){
-  alert('O carrinho está disponível visualmente. A função de carrinho ainda precisa ser integrada.');
+  alert('A sacola visual está pronta. A integração do carrinho ainda precisa ser feita.');
 }
 
 function renderProduct(product){
+
   const price = Number(product.price);
-  const promo = product.promo_price == null ? null : Number(product.promo_price);
-  const hasPromo = Number.isFinite(promo) && promo > 0 && Number.isFinite(price) && promo < price;
+
+  const promo = product.promo_price == null
+    ? null
+    : Number(product.promo_price);
+
+  const hasPromo =
+    Number.isFinite(promo) &&
+    promo > 0 &&
+    Number.isFinite(price) &&
+    promo < price;
+
   const name = escapeHTML(product.name);
+
   const description = escapeHTML(product.description);
 
   const image = product.image_url
-    ? `<div class="image-wrap">
-         <img class="product-image" src="${escapeHTML(product.image_url)}" alt="${name}" loading="lazy"
-           onerror="this.hidden=true;this.nextElementSibling.hidden=false">
-         <div class="image-placeholder" hidden><span class="placeholder-symbol">⚡</span><strong>${name}</strong><small>FREEARD OFC</small></div>
-       </div>`
-    : `<div class="image-wrap"><div class="image-placeholder"><span class="placeholder-symbol">⚡</span><strong>${name}</strong><small>FREEARD OFC</small></div></div>`;
+    ? `
+      <div class="image-wrap">
+        <img
+          class="product-image"
+          src="${escapeHTML(product.image_url)}"
+          alt="${name}"
+          loading="lazy"
+          onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+
+        <div class="image-placeholder" hidden>
+          <span class="placeholder-symbol">⚡</span>
+          <strong>${name}</strong>
+          <small>FREEARD OFC</small>
+        </div>
+      </div>
+    `
+    : `
+      <div class="image-wrap">
+        <div class="image-placeholder">
+          <span class="placeholder-symbol">⚡</span>
+          <strong>${name}</strong>
+          <small>FREEARD OFC</small>
+        </div>
+      </div>
+    `;
 
   const oldPrice = hasPromo
-    ? `<div class="old">${formatPrice(price)}<span class="discount">-${Math.round((1-promo/price)*100)}%</span></div>`
+    ? `
+      <div class="old">
+        ${formatPrice(price)}
+        <span class="discount">
+          -${Math.round((1-promo/price)*100)}%
+        </span>
+      </div>
+    `
     : '';
 
   const displayedPrice = hasPromo ? promo : price;
 
-  return `<article class="card">
-    ${image}
-    <div class="info">
-      <div class="name">${name}</div>
-      ${description ? `<div class="description">${description}</div>` : '<div class="description"></div>'}
-      ${oldPrice}
-      <div class="price">${formatPrice(displayedPrice)}</div>
-      <div class="pix">À vista no PIX</div>
-      <div class="buttons">
-        <button class="buy" type="button" onclick="openPix()">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.5L22 8H6"/>
-            <circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/>
-          </svg>
-          Comprar agora
-        </button>
+  return `
+    <article class="card">
+
+      ${image}
+
+      <div class="info">
+
+        <div class="name">${name}</div>
+
+        ${
+          description
+          ? `<div class="description">${description}</div>`
+          : '<div class="description"></div>'
+        }
+
+        ${oldPrice}
+
+        <div class="price">
+          ${formatPrice(displayedPrice)}
+        </div>
+
+        <div class="pix">
+          À vista no PIX
+        </div>
+
+        <div class="buttons">
+
+          <button class="buy" type="button" onclick="openPix()">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 8h14l1 13H4L5 8Z"/>
+              <path d="M9 9V6a3 3 0 0 1 6 0v3"/>
+            </svg>
+
+            Comprar agora
+
+          </button>
+
+        </div>
+
       </div>
-    </div>
-  </article>`;
+
+    </article>
+  `;
 }
 
 async function loadProducts(){
+
   const container = document.getElementById('products');
 
   const {data, error} = await supabaseClient
@@ -366,13 +806,27 @@ async function loadProducts(){
     .order('created_at', {ascending:true});
 
   if(error){
+
     console.error('Erro ao carregar produtos:', error);
-    container.innerHTML = '<div class="status-message">Não foi possível carregar os produtos. Verifique as permissões da tabela no Supabase.</div>';
+
+    container.innerHTML = `
+      <div class="status-message">
+        Não foi possível carregar os produtos.
+        Verifique as permissões da tabela no Supabase.
+      </div>
+    `;
+
     return;
   }
 
   if(!data || data.length === 0){
-    container.innerHTML = '<div class="status-message">Nenhum produto publicado foi encontrado.</div>';
+
+    container.innerHTML = `
+      <div class="status-message">
+        Nenhum produto publicado foi encontrado.
+      </div>
+    `;
+
     return;
   }
 
@@ -381,5 +835,6 @@ async function loadProducts(){
 
 loadProducts();
 </script>
+
 </body>
 </html>
