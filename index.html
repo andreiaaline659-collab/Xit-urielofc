@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#080b14">
-<title>STRIKE VENDAS</title>
+<title>FREEARD OFC</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -18,7 +19,6 @@
   --muted:#aab5c7;
   --blue:#1677ff;
   --blue-2:#0759d5;
-  --pink:#1677ff;
 }
 *{box-sizing:border-box}
 body{
@@ -35,7 +35,6 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow:hidden;
   padding:8px 12px;
   color:#fff;
   background:linear-gradient(90deg,#0759d5,#1677ff,#0759d5);
@@ -62,20 +61,30 @@ header{
   width:46px;height:46px;flex:0 0 46px;
   display:grid;place-items:center;
   border-radius:50%;
+  overflow:hidden;
   color:#fff;
   font-weight:900;font-size:22px;
   background:linear-gradient(145deg,#268bff,#1045bd 60%,#1677ff);
   border:2px solid rgba(255,255,255,.22);
   box-shadow:0 0 18px rgba(22,119,255,.28);
-  overflow:hidden;
 }
 .avatar img{width:100%;height:100%;object-fit:cover}
-.brand-name{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:18px;font-weight:900;letter-spacing:.3px}
-.verified{
-  display:inline-grid;place-items:center;
-  width:17px;height:17px;border-radius:50%;
-  background:#1685ff;color:white;font-size:11px;font-weight:900;
-  box-shadow:0 0 0 2px rgba(22,133,255,.16);
+.brand-name{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:.3px;
+}
+.verified-badge{
+  width:22px;
+  height:22px;
+  display:inline-block;
+  vertical-align:middle;
+  flex-shrink:0;
+  shape-rendering:geometricPrecision;
 }
 .brand-sub{margin-top:3px;color:var(--muted);font-size:11px}
 .header-actions{display:flex;align-items:center;gap:8px}
@@ -94,17 +103,17 @@ header{
 }
 main{max-width:1050px;margin:auto;padding:22px 15px 40px}
 .welcome{
-  display:flex;align-items:center;justify-content:space-between;gap:15px;
-  padding:19px;border:1px solid var(--line);border-radius:18px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:19px;
+  border:1px solid var(--line);
+  border-radius:18px;
   background:linear-gradient(120deg,rgba(22,119,255,.14),rgba(22,119,255,.08)),var(--surface);
   margin-bottom:27px;
 }
 .welcome h1{margin:0 0 6px;font-size:22px}
 .welcome p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
-.support-link{
-  flex:0 0 auto;padding:11px 14px;border-radius:11px;
-  color:#fff;background:var(--blue);text-decoration:none;font-size:13px;font-weight:800;
-}
 .section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px}
 .section-heading h2{margin:0;font-size:20px}
 .section-heading span{color:var(--muted);font-size:12px}
@@ -150,6 +159,7 @@ footer{padding:25px 12px;color:var(--muted);text-align:center;font-size:12px;bor
 @media(max-width:390px){
   header{padding:10px}
   .brand-name{font-size:15px}
+  .verified-badge{width:20px;height:20px}
   .avatar{width:40px;height:40px;flex-basis:40px}
   .login-button{padding:0 9px}
   main{padding:17px 10px 30px}
@@ -160,22 +170,44 @@ footer{padding:25px 12px;color:var(--muted);text-align:center;font-size:12px;bor
   .buy{font-size:11px}
   .welcome{padding:14px}
   .welcome h1{font-size:18px}
-  .support-link{padding:10px;font-size:11px}
 }
 </style>
 </head>
 
 <body>
-<div class="announcement">VENDEDOR VERIFICADO • TODOS OS XIT SÃO PERMANENTES!<br>SE NÃO FUNCIONAR, REEMBOLSO DO DINHEIRO!</div>
+<div class="announcement">
+VENDEDOR VERIFICADO • TODOS OS XIT SÃO PERMANENTES!<br>
+SE NÃO FUNCIONAR, REEMBOLSO DO DINHEIRO!
+</div>
 
 <header>
   <div class="brand">
-    <div class="avatar" aria-label="Logo Strike Vendas">S</div>
+    <div class="avatar" aria-label="Foto do perfil">
+      F
+    </div>
+
     <div>
-      <div class="brand-name">STRIKE VENDAS <span class="verified" title="Selo visual">✓</span></div>
+      <div class="brand-name">
+        FREEARD OFC
+        <svg class="verified-badge" viewBox="0 0 48 48" role="img" aria-label="Selo visual personalizado">
+          <path
+            d="M24 2 L29 7 L36 5 L39 12 L46 16 L43 24 L46 32 L39 36 L36 43 L29 41 L24 46 L19 41 L12 43 L9 36 L2 32 L5 24 L2 16 L9 12 L12 5 L19 7 Z"
+            fill="#1877F2"
+          />
+          <path
+            d="M14 24 L21 31 L35 17"
+            fill="none"
+            stroke="#FFFFFF"
+            stroke-width="4.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
       <div class="brand-sub">Contas e ferramentas para Free Fire</div>
     </div>
   </div>
+
   <div class="header-actions">
     <button class="icon-button" type="button" aria-label="Pesquisar" onclick="searchNotice()">⌕</button>
     <button class="icon-button" type="button" aria-label="Carrinho" onclick="cartNotice()">🛒 <span class="cart-count" id="cartCount">0</span></button>
@@ -186,10 +218,9 @@ footer{padding:25px 12px;color:var(--muted);text-align:center;font-size:12px;bor
 <main>
   <section class="welcome">
     <div>
-      <h1>Bem-vindo à Strike Vendas</h1>
+      <h1>Bem-vindo à FREEARD OFC</h1>
       <p>Confira nossos produtos e escolha sua oferta.</p>
     </div>
-    <a class="support-link" href="#" onclick="alert('Em breve vamos adicionar o contato de suporte!');return false">Falar com suporte</a>
   </section>
 
   <div class="section-heading">
@@ -202,7 +233,7 @@ footer{padding:25px 12px;color:var(--muted);text-align:center;font-size:12px;bor
   </section>
 </main>
 
-<footer>© 2026 STRIKE VENDAS — Todos os direitos reservados.</footer>
+<footer>© 2026 FREEARD OFC — Todos os direitos reservados.</footer>
 
 <script>
 const SUPABASE_URL = 'https://uvmlovadmbyiuvjogepv.supabase.co';
@@ -217,12 +248,22 @@ function escapeHTML(value){
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
   }[char]));
 }
+
 function formatPrice(value){
   return Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 }
-function openPix(){ window.location.href = PIX_URL; }
-function searchNotice(){ alert('A pesquisa será disponibilizada em breve!'); }
-function cartNotice(){ alert('O carrinho visual está pronto. A função de adicionar produtos ainda precisa ser integrada.'); }
+
+function openPix(){
+  window.location.href = PIX_URL;
+}
+
+function searchNotice(){
+  alert('A pesquisa será disponibilizada em breve!');
+}
+
+function cartNotice(){
+  alert('O carrinho visual está pronto. A função de adicionar produtos ainda precisa ser integrada.');
+}
 
 function renderProduct(product){
   const price = Number(product.price);
@@ -232,12 +273,13 @@ function renderProduct(product){
   const description = escapeHTML(product.description);
 
   const image = product.image_url
-    ? `<img class="product-image" src="${escapeHTML(product.image_url)}" alt="${name}" loading="lazy" onerror="this.outerHTML='<div class=&quot;image-placeholder&quot;><span class=&quot;placeholder-symbol&quot;>⚡</span><strong>${name}</strong><small>STRIKE VENDAS</small></div>'">`
-    : `<div class="image-placeholder"><span class="placeholder-symbol">⚡</span><strong>${name}</strong><small>STRIKE VENDAS</small></div>`;
+    ? `<img class="product-image" src="${escapeHTML(product.image_url)}" alt="${name}" loading="lazy" onerror="this.outerHTML='<div class=&quot;image-placeholder&quot;><span class=&quot;placeholder-symbol&quot;>⚡</span><strong>${name}</strong><small>FREEARD OFC</small></div>'">`
+    : `<div class="image-placeholder"><span class="placeholder-symbol">⚡</span><strong>${name}</strong><small>FREEARD OFC</small></div>`;
 
   const oldPrice = hasPromo
     ? `<div class="old">${formatPrice(price)} <span class="discount">-${Math.round((1-promo/price)*100)}%</span></div>`
     : '';
+
   const displayedPrice = hasPromo ? promo : price;
 
   return `
@@ -250,7 +292,9 @@ function renderProduct(product){
         <div class="price">${formatPrice(displayedPrice)}</div>
         <div class="pix">À vista no PIX</div>
         <div class="buttons">
-          <button class="buy" type="button" onclick="openPix()"><span>🛒</span> COMPRAR AGORA</button>
+          <button class="buy" type="button" onclick="openPix()">
+            <span>🛒</span> COMPRAR AGORA
+          </button>
         </div>
       </div>
     </article>`;
@@ -258,6 +302,7 @@ function renderProduct(product){
 
 async function loadProducts(){
   const container = document.getElementById('products');
+
   const {data, error} = await supabaseClient
     .from('products')
     .select('id,name,description,price,image_url,promo_price,published,created_at')
@@ -269,15 +314,15 @@ async function loadProducts(){
     container.innerHTML = '<div class="status-message">Não foi possível carregar os produtos. Verifique as permissões da tabela no Supabase.</div>';
     return;
   }
+
   if(!data || data.length === 0){
     container.innerHTML = '<div class="status-message">Nenhum produto publicado foi encontrado.</div>';
     return;
   }
+
   container.innerHTML = data.map(renderProduct).join('');
 }
-function downloadNotice(){
-  alert('O download será disponibilizado após a confirmação do pagamento pela loja.');
-}
+
 loadProducts();
 </script>
 </body>
