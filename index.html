@@ -1,128 +1,208 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>URIEL XIT OFC</title>
+<meta name="theme-color" content="#080b14">
+<title>STRIKE VENDAS</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+:root{
+  --bg:#080b14;
+  --surface:#101522;
+  --surface-2:#151d2d;
+  --line:#26334a;
+  --text:#f5f7fb;
+  --muted:#aab5c7;
+  --blue:#1677ff;
+  --blue-2:#0759d5;
+  --pink:#e72b91;
+}
 *{box-sizing:border-box}
 body{
- margin:0;background:#030005;color:white;font-family:Arial,sans-serif;
- background-image:
- radial-gradient(circle at 12% 20%,#a000ff 1px,transparent 3px),
- radial-gradient(circle at 80% 35%,#a000ff 1px,transparent 3px),
- radial-gradient(circle at 35% 70%,#7900c9 1px,transparent 3px),
- radial-gradient(circle at 90% 85%,#a000ff 1px,transparent 3px);
- background-size:130px 150px;
+  margin:0;
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(22,119,255,.13),transparent 28rem),
+    radial-gradient(circle at 90% 35%,rgba(231,43,145,.08),transparent 25rem),
+    var(--bg);
+}
+.announcement{
+  min-height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:8px 12px;
+  color:#fff;
+  background:linear-gradient(90deg,#c51c78,#ec3295,#bd197d);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.5px;
+  text-align:center;
 }
 header{
- display:flex;align-items:center;justify-content:space-between;
- padding:15px;border-bottom:2px solid #9400ff;
- background:#08050c;gap:10px;
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px max(15px,calc((100% - 1050px)/2));
+  background:rgba(8,11,20,.96);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(12px);
 }
-.logo{display:flex;align-items:center;gap:10px;font-weight:bold;font-size:19px}
-.logo-icon{
- width:43px;height:43px;border-radius:50%;
- background:linear-gradient(135deg,#a000ff,#35005b);
- display:grid;place-items:center;font-size:23px;
- box-shadow:0 0 15px #a000ff;
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.avatar{
+  width:46px;height:46px;flex:0 0 46px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  color:#fff;
+  font-weight:900;font-size:22px;
+  background:linear-gradient(145deg,#268bff,#1045bd 60%,#e72b91);
+  border:2px solid rgba(255,255,255,.22);
+  box-shadow:0 0 18px rgba(22,119,255,.28);
+  overflow:hidden;
 }
-.actions{display:flex;align-items:center;gap:10px}
-.search,.login{
- border:1px solid #9c00ff;border-radius:12px;
- padding:12px;color:white;background:#170020;font-size:15px
+.avatar img{width:100%;height:100%;object-fit:cover}
+.brand-name{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:18px;font-weight:900;letter-spacing:.3px}
+.verified{
+  display:inline-grid;place-items:center;
+  width:17px;height:17px;border-radius:50%;
+  background:#1685ff;color:white;font-size:11px;font-weight:900;
+  box-shadow:0 0 0 2px rgba(22,133,255,.16);
 }
-.login{background:#7900d9;font-weight:bold}
-main{max-width:900px;margin:auto;padding:20px 15px}
-.support{text-align:center;margin:8px 0 38px}
-.support a{
- display:inline-block;padding:18px 42px;border-radius:22px;
- color:#09000e;background:linear-gradient(135deg,#c000ff,#7900e8);
- text-decoration:none;font-weight:bold;font-size:20px;
- box-shadow:0 0 25px #a000ff
+.brand-sub{margin-top:3px;color:var(--muted);font-size:11px}
+.header-actions{display:flex;align-items:center;gap:8px}
+.icon-button,.login-button{
+  min-width:40px;height:40px;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  border:1px solid var(--line);border-radius:12px;
+  color:#fff;background:var(--surface-2);
+  font-size:18px;text-decoration:none;cursor:pointer;
 }
-h2{font-size:27px;font-weight:400;margin:0 0 35px}
-h2:after{
- content:"";display:block;width:70%;height:2px;
- background:#9900e9;margin-top:15px
+.login-button{padding:0 12px;font-size:13px;font-weight:800}
+.cart-count{
+  display:inline-grid;place-items:center;
+  min-width:17px;height:17px;padding:0 4px;
+  border-radius:20px;background:var(--blue);font-size:10px;font-weight:800;
 }
-.products{
- display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 18px
+main{max-width:1050px;margin:auto;padding:22px 15px 40px}
+.welcome{
+  display:flex;align-items:center;justify-content:space-between;gap:15px;
+  padding:19px;border:1px solid var(--line);border-radius:18px;
+  background:linear-gradient(120deg,rgba(22,119,255,.14),rgba(231,43,145,.08)),var(--surface);
+  margin-bottom:27px;
 }
+.welcome h1{margin:0 0 6px;font-size:22px}
+.welcome p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+.support-link{
+  flex:0 0 auto;padding:11px 14px;border-radius:11px;
+  color:#fff;background:var(--blue);text-decoration:none;font-size:13px;font-weight:800;
+}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px}
+.section-heading h2{margin:0;font-size:20px}
+.section-heading span{color:var(--muted);font-size:12px}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
 .card{
- overflow:hidden;border:1px solid #b000ff;border-radius:20px;
- background:#080609;box-shadow:0 0 8px #500078
+  min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:17px;
+  background:linear-gradient(180deg,#141c2b,#0e1420);
+  box-shadow:0 8px 25px rgba(0,0,0,.22);
 }
-.banner{
- height:145px;background:linear-gradient(130deg,#260000,#a00000,#160016);
- display:flex;flex-direction:column;justify-content:center;
- align-items:center;text-align:center;padding:10px;
- border-bottom:2px solid #a000ff;
+.product-image,.image-placeholder{
+  display:block;width:100%;aspect-ratio:1/1;object-fit:cover;
+  background:#111b2b;border-bottom:1px solid var(--line);
 }
-.banner strong{font-size:25px;font-style:italic;text-shadow:2px 2px #000}
-.banner span{font-size:19px;color:#ff3131;font-weight:bold}
-.banner small{margin-top:12px;color:#ffd5d5}
-.product-image{
- width:100%;height:180px;object-fit:cover;
- border-bottom:2px solid #a000ff;display:block;
+.image-placeholder{
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  gap:8px;padding:15px;text-align:center;
+  background:radial-gradient(circle at 50% 35%,#264b85,#111827 65%);
 }
-.info{padding:12px}
-.name{font-size:18px;line-height:1.35;min-height:48px}
-.description{color:#bbb;font-size:14px;margin-top:8px}
-.old{color:#aaa;text-decoration:line-through;margin-top:12px;font-size:13px}
-.discount{color:#00ed9b;background:#00291d;padding:4px 7px;border-radius:7px;margin-left:6px;font-size:12px}
-.price{font-size:20px;margin-top:7px;font-weight:bold}
-.pix{color:#bbb;font-size:13px;margin-top:5px}
-.buttons{display:flex;gap:8px;margin-top:15px}
+.placeholder-symbol{font-size:38px}
+.image-placeholder strong{font-size:14px;overflow-wrap:anywhere}
+.image-placeholder small{color:#c3d3eb;font-size:10px;letter-spacing:1px}
+.info{padding:13px}
+.name{min-height:38px;font-size:15px;font-weight:800;line-height:1.3;overflow-wrap:anywhere}
+.description{min-height:0;margin-top:7px;color:var(--muted);font-size:12px;line-height:1.4}
+.old{margin-top:11px;color:#9ca8bb;text-decoration:line-through;font-size:12px}
+.discount{display:inline-block;margin-left:5px;padding:4px 6px;border-radius:6px;color:#a8ffd9;background:#073c2a;font-size:10px;font-weight:800;text-decoration:none}
+.price{margin-top:8px;font-size:19px;font-weight:900}
+.pix{margin-top:4px;color:var(--muted);font-size:11px}
+.buttons{display:flex;gap:8px;margin-top:13px}
 .buy,.download{
- border:0;border-radius:12px;background:linear-gradient(90deg,#7900df,#a000ff);
- color:#09000d;font-weight:bold;font-size:16px;padding:15px 5px;
+  min-height:43px;border:0;border-radius:11px;
+  color:#fff;background:linear-gradient(100deg,var(--blue-2),var(--blue));
+  font-size:13px;font-weight:900;cursor:pointer;
 }
-.buy{flex:1}
-.download{width:53px;color:white;font-size:22px}
-.status-message{
- text-align:center;padding:25px;color:#ddd;grid-column:1/-1;
+.buy{flex:1;display:flex;align-items:center;justify-content:center;gap:7px}
+.download{width:44px;flex:0 0 44px;background:#1a2a43;border:1px solid #314563;font-size:18px}
+.status-message{grid-column:1/-1;padding:28px 15px;color:var(--muted);text-align:center;border:1px dashed var(--line);border-radius:14px}
+footer{padding:25px 12px;color:var(--muted);text-align:center;font-size:12px;border-top:1px solid var(--line)}
+@media(min-width:700px){
+  .products{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .product-image,.image-placeholder{aspect-ratio:4/3}
 }
-footer{text-align:center;color:#aaa;padding:35px 10px}
-@media(max-width:380px){
- .logo{font-size:15px}.search{padding:10px}
- .banner{height:120px}.banner strong{font-size:20px}
- .name{font-size:15px}.info{padding:9px}
- .buy{font-size:14px}
- .price{font-size:18px}
+@media(max-width:390px){
+  header{padding:10px}
+  .brand-name{font-size:15px}
+  .avatar{width:40px;height:40px;flex-basis:40px}
+  .login-button{padding:0 9px}
+  main{padding:17px 10px 30px}
+  .products{gap:11px}
+  .info{padding:10px}
+  .name{font-size:13px}
+  .price{font-size:17px}
+  .buy{font-size:11px}
+  .welcome{padding:14px}
+  .welcome h1{font-size:18px}
+  .support-link{padding:10px;font-size:11px}
 }
 </style>
 </head>
 
 <body>
+<div class="announcement">⚡ OFERTAS E NOVIDADES • ATENDIMENTO RÁPIDO • STRIKE VENDAS ⚡</div>
+
 <header>
- <div class="logo">
-  <div class="logo-icon">✦</div>
-  <span>URIEL XIT OFC</span>
- </div>
- <div class="actions">
-  <button class="search" onclick="alert('Pesquisa em breve!')">⌕</button>
-  <button class="login" onclick="alert('Área de login em breve!')">Entrar</button>
- </div>
+  <div class="brand">
+    <div class="avatar" aria-label="Logo Strike Vendas">S</div>
+    <div>
+      <div class="brand-name">STRIKE VENDAS <span class="verified" title="Selo visual">✓</span></div>
+      <div class="brand-sub">Contas e ferramentas para Free Fire</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="icon-button" type="button" aria-label="Pesquisar" onclick="searchNotice()">⌕</button>
+    <button class="icon-button" type="button" aria-label="Carrinho" onclick="cartNotice()">🛒 <span class="cart-count" id="cartCount">0</span></button>
+    <button class="login-button" type="button" onclick="alert('Área de login em breve!')">Entrar</button>
+  </div>
 </header>
 
 <main>
- <div class="support">
-  <a href="#" onclick="alert('Em breve vamos adicionar o contato de suporte!');return false">➤ &nbsp; Suporte</a>
- </div>
+  <section class="welcome">
+    <div>
+      <h1>Bem-vindo à Strike Vendas</h1>
+      <p>Confira nossos produtos e escolha sua oferta.</p>
+    </div>
+    <a class="support-link" href="#" onclick="alert('Em breve vamos adicionar o contato de suporte!');return false">Falar com suporte</a>
+  </section>
 
- <h2>PROXY ANDROID KWAI</h2>
+  <div class="section-heading">
+    <h2>Produtos em destaque</h2>
+    <span>Ofertas disponíveis</span>
+  </div>
 
- <section class="products" id="products">
-  <div class="status-message">Carregando produtos...</div>
- </section>
+  <section class="products" id="products">
+    <div class="status-message">Carregando produtos...</div>
+  </section>
 </main>
 
-<footer>© 2026 URIEL XIT OFC — Todos os direitos reservados.</footer>
+<footer>© 2026 STRIKE VENDAS — Todos os direitos reservados.</footer>
 
 <script>
 const SUPABASE_URL = 'https://uvmlovadmbyiuvjogepv.supabase.co';
@@ -130,90 +210,75 @@ const SUPABASE_KEY = 'sb_publishable_4eUg8dwrnmVZCcCQiEANvA_DgXwvOST';
 
 const PIX_URL = 'https://nubank.com.br/cobrar/3d51nu/6b099831-ee8a-412b-8c7b-4e7ea8e34379';
 
-const supabaseClient = window.supabase.createClient(
- SUPABASE_URL,
- SUPABASE_KEY
-);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 function escapeHTML(value){
- return String(value ?? '').replace(/[&<>"']/g, char => ({
-  '&':'&amp;','<':'&lt;','>':'&gt;',
-  '"':'&quot;',"'":'&#39;'
- }[char]));
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[char]));
 }
-
 function formatPrice(value){
- return Number(value).toLocaleString('pt-BR',{
-  style:'currency',currency:'BRL'
- });
+  return Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 }
-
-function openPix(){
- window.location.href = PIX_URL;
-}
+function openPix(){ window.location.href = PIX_URL; }
+function searchNotice(){ alert('A pesquisa será disponibilizada em breve!'); }
+function cartNotice(){ alert('O carrinho visual está pronto. A função de adicionar produtos ainda precisa ser integrada.'); }
 
 function renderProduct(product){
- const price = Number(product.price);
- const promo = product.promo_price == null ? null : Number(product.promo_price);
+  const price = Number(product.price);
+  const promo = product.promo_price == null ? null : Number(product.promo_price);
+  const hasPromo = promo !== null && promo > 0 && promo < price;
+  const name = escapeHTML(product.name);
+  const description = escapeHTML(product.description);
 
- const hasPromo = promo !== null && promo > 0 && promo < price;
- const name = escapeHTML(product.name);
- const description = escapeHTML(product.description);
+  const image = product.image_url
+    ? `<img class="product-image" src="${escapeHTML(product.image_url)}" alt="${name}" loading="lazy" onerror="this.outerHTML='<div class=&quot;image-placeholder&quot;><span class=&quot;placeholder-symbol&quot;>⚡</span><strong>${name}</strong><small>STRIKE VENDAS</small></div>'">`
+    : `<div class="image-placeholder"><span class="placeholder-symbol">⚡</span><strong>${name}</strong><small>STRIKE VENDAS</small></div>`;
 
- const image = product.image_url
-  ? `<img class="product-image" src="${escapeHTML(product.image_url)}" alt="${name}" onerror="this.style.display='none'">`
-  : `<div class="banner"><strong>${name}</strong><span>ACESSO DIGITAL</span><small>ANDROID • PRODUTO DIGITAL</small></div>`;
+  const oldPrice = hasPromo
+    ? `<div class="old">${formatPrice(price)} <span class="discount">-${Math.round((1-promo/price)*100)}%</span></div>`
+    : '';
+  const displayedPrice = hasPromo ? promo : price;
 
- const oldPrice = hasPromo
-  ? `<div class="old">${formatPrice(price)} <span class="discount">↓ ${Math.round((1-promo/price)*100)}%</span></div>`
-  : '';
-
- const displayedPrice = hasPromo ? promo : price;
-
- return `
- <article class="card">
-  ${image}
-  <div class="info">
-   <div class="name">${name}</div>
-   ${description ? `<div class="description">${description}</div>` : ''}
-   ${oldPrice}
-   <div class="price">${formatPrice(displayedPrice)}</div>
-   <div class="pix">À vista no PIX</div>
-   <div class="buttons">
-    <button class="buy" onclick="openPix()">Comprar</button>
-    <button class="download" onclick="downloadNotice()">⇩</button>
-   </div>
-  </div>
- </article>`;
+  return `
+    <article class="card">
+      ${image}
+      <div class="info">
+        <div class="name">${name}</div>
+        ${description ? `<div class="description">${description}</div>` : ''}
+        ${oldPrice}
+        <div class="price">${formatPrice(displayedPrice)}</div>
+        <div class="pix">À vista no PIX</div>
+        <div class="buttons">
+          <button class="buy" type="button" onclick="openPix()"><span>🛒</span> COMPRAR AGORA</button>
+          <button class="download" type="button" aria-label="Informações de download" onclick="downloadNotice()">⇩</button>
+        </div>
+      </div>
+    </article>`;
 }
 
 async function loadProducts(){
- const container = document.getElementById('products');
+  const container = document.getElementById('products');
+  const {data, error} = await supabaseClient
+    .from('products')
+    .select('id,name,description,price,image_url,promo_price,published,created_at')
+    .eq('published', true)
+    .order('created_at', {ascending:true});
 
- const {data, error} = await supabaseClient
-  .from('products')
-  .select('id,name,description,price,image_url,promo_price,published,created_at')
-  .eq('published', true)
-  .order('created_at', {ascending:true});
-
- if(error){
-  console.error('Erro ao carregar produtos:', error);
-  container.innerHTML = '<div class="status-message">Não foi possível carregar os produtos. Verifique as permissões da tabela no Supabase.</div>';
-  return;
- }
-
- if(!data || data.length === 0){
-  container.innerHTML = '<div class="status-message">Nenhum produto publicado foi encontrado.</div>';
-  return;
- }
-
- container.innerHTML = data.map(renderProduct).join('');
+  if(error){
+    console.error('Erro ao carregar produtos:', error);
+    container.innerHTML = '<div class="status-message">Não foi possível carregar os produtos. Verifique as permissões da tabela no Supabase.</div>';
+    return;
+  }
+  if(!data || data.length === 0){
+    container.innerHTML = '<div class="status-message">Nenhum produto publicado foi encontrado.</div>';
+    return;
+  }
+  container.innerHTML = data.map(renderProduct).join('');
 }
-
 function downloadNotice(){
- alert('O download será disponibilizado após a confirmação do pagamento pela loja.');
+  alert('O download será disponibilizado após a confirmação do pagamento pela loja.');
 }
-
 loadProducts();
 </script>
 </body>
