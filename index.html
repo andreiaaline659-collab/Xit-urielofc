@@ -7,130 +7,458 @@
 <meta name="description" content="FREEARD OFC — Loja de produtos digitais.">
 <title>FREEARD OFC</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 :root{
-  --bg:#08080b;--surface:#101014;--line:rgba(255,255,255,.10);
-  --red:#e51c30;--red-dark:#b51225;--text:#f5f3f7;--muted:#99949f;
+  --bg:#08080b;
+  --surface:#101014;
+  --line:rgba(255,255,255,.09);
+  --red:#d71930;
+  --red-dark:#b51225;
+  --text:#f5f3f7;
+  --muted:#99949f;
 }
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;color:var(--text);background:var(--bg);font-family:Inter,Arial,Helvetica,sans-serif}
+body{
+  margin:0;
+  color:var(--text);
+  background:var(--bg);
+  font-family:Inter,Arial,Helvetica,sans-serif;
+}
 button{font:inherit}
 
-/* FAIXA SUPERIOR COM SELO BRANCO */
+/* AVISO SUPERIOR */
 .announcement{
-  min-height:42px;display:flex;align-items:center;justify-content:center;
-  gap:10px;padding:7px 12px;text-align:center;color:#fff;
-  background:linear-gradient(100deg,#a20d21,#e51c30,#a20d21);
-  font-size:10px;font-weight:850;line-height:1.45;letter-spacing:.25px;
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:7px 12px;
+  text-align:center;
+  color:#fff;
+  background:linear-gradient(100deg,#a20d21,#d71930,#a20d21);
+  font-size:10px;
+  font-weight:800;
+  line-height:1.45;
+  letter-spacing:.2px;
 }
-.announcement-seal{width:20px;height:20px;flex:0 0 20px}
+.announcement-seal{
+  width:19px;
+  height:19px;
+  flex:0 0 19px;
+}
 
 /* CABEÇALHO */
-.header-shell{position:sticky;top:0;z-index:10;background:rgba(8,8,11,.97);border-bottom:1px solid rgba(229,28,48,.20);backdrop-filter:blur(14px)}
-header{max-width:1160px;margin:auto;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.brand{display:flex;align-items:center;gap:9px;min-width:0}
-.avatar{width:38px;height:38px;flex:0 0 38px;border-radius:9px;overflow:hidden;border:1px solid var(--line);background:#15151b}
-.avatar img{width:100%;height:100%;display:block;object-fit:cover}
-.brand-name{display:flex;align-items:center;gap:5px;white-space:nowrap;font-size:14px;font-weight:900}
-.verified-badge{width:17px;height:17px;flex:0 0 17px}
-.brand-sub{margin-top:3px;color:var(--muted);font-size:8px;letter-spacing:.35px}
-.header-actions{display:flex;align-items:center;gap:7px}
-.icon-button,.login-button{
-  width:39px;height:39px;display:inline-flex;align-items:center;justify-content:center;
-  border:1px solid rgba(255,255,255,.11);border-radius:11px;color:#fff;background:#111116;cursor:pointer;transition:.2s
+.header-shell{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:rgba(8,8,11,.97);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(14px);
 }
-.icon-button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+header{
+  max-width:1160px;
+  margin:auto;
+  padding:10px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-width:0;
+}
+.avatar{
+  width:38px;
+  height:38px;
+  flex:0 0 38px;
+  border-radius:9px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:#15151b;
+}
+.avatar img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+.brand-name{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
+  font-size:14px;
+  font-weight:900;
+}
+.verified-badge{
+  width:17px;
+  height:17px;
+  flex:0 0 17px;
+}
+.brand-sub{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:.35px;
+}
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.icon-button,.login-button{
+  width:39px;
+  height:39px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:10px;
+  color:#fff;
+  background:#111116;
+  cursor:pointer;
+  transition:.2s;
+}
+.icon-button svg{
+  width:20px;
+  height:20px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
 .icon-button:hover{border-color:var(--red)}
-.cart-button{color:#fff;background:var(--red);border-color:var(--red)}
+.cart-button{
+  color:#fff;
+  background:var(--red);
+  border-color:var(--red);
+}
 .cart-button:hover{background:var(--red-dark)}
-.login-button{width:auto;min-width:70px;padding:0 13px;font-size:11px;font-weight:800}
+.login-button{
+  width:auto;
+  min-width:70px;
+  padding:0 13px;
+  font-size:11px;
+  font-weight:800;
+}
 
 /* CONTEÚDO */
-main{max-width:1160px;margin:auto;padding:20px 14px 32px}
+main{
+  max-width:1160px;
+  margin:auto;
+  padding:20px 14px 32px;
+}
 .intro{margin:0 2px 16px}
-.section-heading h2{margin:0;font-size:clamp(16px,2.5vw,21px);font-weight:900;line-height:1.35;text-transform:uppercase}
-.section-heading p{margin:6px 0 0;color:var(--muted);font-size:11px}
-.section-mark{width:46px;height:3px;margin-top:11px;border-radius:10px;background:linear-gradient(90deg,var(--red),#7800bd)}
+.section-heading h2{
+  margin:0;
+  font-size:clamp(16px,2.5vw,21px);
+  font-weight:850;
+  line-height:1.35;
+  text-transform:uppercase;
+}
+.section-heading p{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:11px;
+}
+.section-mark{
+  width:42px;
+  height:3px;
+  margin-top:11px;
+  border-radius:10px;
+  background:var(--red);
+}
 
-/* GRADE E CARTÕES — DUAS COLUNAS NO CELULAR */
-.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.card{min-width:0;overflow:hidden;border:1px solid rgba(255,255,255,.11);border-radius:14px;background:linear-gradient(145deg,#111116,#0b0b0f);transition:border-color .2s}
-.card:hover{border-color:rgba(229,28,48,.5)}
-.image-wrap{position:relative;width:100%;aspect-ratio:1.82/1;overflow:hidden;background:#17131b;border-bottom:1px solid rgba(255,255,255,.08)}
-.product-image{width:100%;height:100%;display:block;object-fit:cover}
-.image-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;padding:10px;text-align:center;background:radial-gradient(circle,#32133c,#101014 75%)}
+/* PRODUTOS */
+.products{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+}
+.card{
+  min-width:0;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:13px;
+  background:#0e0e12;
+  transition:border-color .2s;
+}
+.card:hover{
+  border-color:rgba(215,25,48,.45);
+}
+.image-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:1.82/1;
+  overflow:hidden;
+  background:#17131b;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.product-image{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+.image-placeholder{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:7px;
+  padding:10px;
+  text-align:center;
+  background:radial-gradient(circle,#32133c,#101014 75%);
+}
 .image-placeholder[hidden]{display:none}
 .placeholder-symbol{font-size:25px}
-.image-placeholder strong{font-size:11px;overflow-wrap:anywhere}
-.image-placeholder small{color:#d4a7ee;font-size:9px}
+.image-placeholder strong{
+  font-size:11px;
+  overflow-wrap:anywhere;
+}
+.image-placeholder small{
+  color:#d4a7ee;
+  font-size:9px;
+}
 
-/* INFORMAÇÕES NO ESTILO DA REFERÊNCIA: NOME, PREÇO ANTIGO/DESCONTO, PREÇO E PIX */
-.info{padding:10px 11px 11px;display:flex;flex-direction:column;min-height:166px}
+/* INFORMAÇÕES */
+.info{
+  padding:10px 10px 10px;
+  display:flex;
+  flex-direction:column;
+  min-height:158px;
+}
 .name{
-  min-height:2.65em;font-size:12px;font-weight:850;line-height:1.35;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
-  overflow:hidden;overflow-wrap:anywhere;text-transform:uppercase
+  min-height:2.65em;
+  font-size:11px;
+  font-weight:800;
+  line-height:1.4;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  overflow-wrap:anywhere;
+  text-transform:uppercase;
 }
-.price-line{min-height:21px;display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:9px}
-.old{color:#918c96;font-size:10px;text-decoration:line-through}
-.discount{
-  display:inline-flex;align-items:center;gap:3px;padding:3px 7px;border-radius:7px;
-  color:#8de0b7;background:rgba(30,170,112,.12);border:1px solid rgba(30,170,112,.35);
-  font-size:9px;font-weight:850;text-decoration:none
-}
-.discount svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.price{margin-top:2px;color:#f5f3f7;font-size:17px;font-weight:900;letter-spacing:.1px}
-.pix{margin-top:3px;color:var(--muted);font-size:10px}
 
-/* BOTÃO COM CARRINHO BRANCO */
-.buttons{display:flex;margin-top:auto;padding-top:12px}
-.buy{
-  width:100%;min-height:41px;display:flex;align-items:center;justify-content:center;gap:8px;
-  border:1px solid rgba(255,255,255,.08);border-radius:8px;color:#fff;
-  background:linear-gradient(100deg,#bd1529,#ed2639);font-size:11px;font-weight:850;cursor:pointer;transition:filter .2s,transform .2s
+/* PREÇO ANTIGO E DESCONTO */
+.price-line{
+  min-height:19px;
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:8px;
 }
-.buy svg{width:19px;height:19px;flex:0 0 19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.old{
+  color:#85818a;
+  font-size:9px;
+  text-decoration:line-through;
+}
+.discount{
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  padding:2px 6px;
+  border-radius:6px;
+  color:#8de0b7;
+  background:rgba(30,170,112,.10);
+  border:1px solid rgba(30,170,112,.27);
+  font-size:8px;
+  font-weight:800;
+  text-decoration:none;
+}
+.discount svg{
+  width:9px;
+  height:9px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+/* PREÇO FINAL MAIS DISCRETO */
+.price{
+  margin-top:3px;
+  color:#f0eef2;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:0;
+}
+.pix{
+  margin-top:3px;
+  color:#96919b;
+  font-size:9px;
+}
+
+/* BOTÃO DE COMPRA */
+.buttons{
+  display:flex;
+  margin-top:auto;
+  padding-top:11px;
+}
+.buy{
+  width:100%;
+  min-height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:7px;
+  color:#fff;
+  background:linear-gradient(100deg,#b9152a,#df1d33);
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
+  transition:filter .2s,transform .2s;
+}
+.buy svg{
+  width:18px;
+  height:18px;
+  flex:0 0 18px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
 .buy:hover{filter:brightness(1.12)}
 .buy:active{transform:scale(.98)}
-.status-message{grid-column:1/-1;padding:25px 14px;color:var(--muted);text-align:center;border:1px dashed rgba(255,255,255,.15);border-radius:12px;font-size:12px}
-footer{padding:25px 14px;color:#89838f;text-align:center;font-size:11px;line-height:1.6;border-top:1px solid var(--line)}
 
+.status-message{
+  grid-column:1/-1;
+  padding:25px 14px;
+  color:var(--muted);
+  text-align:center;
+  border:1px dashed rgba(255,255,255,.15);
+  border-radius:12px;
+  font-size:12px;
+}
+footer{
+  padding:25px 14px;
+  color:#89838f;
+  text-align:center;
+  font-size:10px;
+  line-height:1.6;
+  border-top:1px solid var(--line);
+}
+
+/* CELULAR */
 @media(max-width:480px){
-  .announcement{min-height:42px;font-size:10px;gap:8px;padding:6px 9px}
-  .announcement-seal{width:19px;height:19px;flex-basis:19px}
+  .announcement{
+    min-height:42px;
+    font-size:10px;
+    gap:8px;
+    padding:6px 9px;
+  }
+  .announcement-seal{
+    width:19px;
+    height:19px;
+    flex-basis:19px;
+  }
   header{padding:8px 10px}
-  .avatar{width:35px;height:35px;flex-basis:35px}
-  .brand-name{font-size:12px}.brand-sub{font-size:7px}
+  .avatar{
+    width:35px;
+    height:35px;
+    flex-basis:35px;
+  }
+  .brand-name{font-size:12px}
+  .brand-sub{font-size:7px}
   .header-actions{gap:5px}
-  .icon-button,.login-button{height:35px;min-width:35px;border-radius:9px}
-  .login-button{min-width:57px;font-size:10px;padding:0 8px}
-  .icon-button svg{width:18px;height:18px}
+  .icon-button,.login-button{
+    height:35px;
+    min-width:35px;
+    border-radius:9px;
+  }
+  .login-button{
+    min-width:57px;
+    font-size:10px;
+    padding:0 8px;
+  }
+  .icon-button svg{
+    width:18px;
+    height:18px;
+  }
   main{padding:17px 11px 26px}
   .products{gap:10px}
-  .info{min-height:160px;padding:9px}
-  .name{font-size:10.5px;min-height:2.7em}
-  .price-line{margin-top:8px;gap:4px}
+  .info{
+    min-height:153px;
+    padding:9px;
+  }
+  .name{
+    font-size:10.5px;
+    min-height:2.7em;
+  }
+  .price-line{
+    margin-top:7px;
+    gap:4px;
+  }
   .old{font-size:9px}
-  .discount{font-size:8px;padding:3px 6px}
-  .price{font-size:16px}
+  .discount{
+    font-size:8px;
+    padding:2px 5px;
+  }
+  .price{font-size:13px}
   .pix{font-size:9px}
-  .buy{min-height:39px;font-size:10px;gap:6px}
-  .buy svg{width:18px;height:18px;flex-basis:18px}
+  .buy{
+    min-height:35px;
+    font-size:10px;
+    gap:6px;
+  }
+  .buy svg{
+    width:17px;
+    height:17px;
+    flex-basis:17px;
+  }
   .section-heading h2{font-size:16px}
 }
+
+/* TABLETS E COMPUTADORES */
 @media(min-width:700px){
-  .products{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-  .info{min-height:180px;padding:12px}
-  .name{font-size:13px}
-  .old{font-size:11px}
-  .price{font-size:19px}
-  .buy{min-height:44px;font-size:12px}
+  .products{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:16px;
+  }
+  .info{
+    min-height:165px;
+    padding:12px;
+  }
+  .name{font-size:12px}
+  .old{font-size:10px}
+  .price{font-size:15px}
+  .buy{
+    min-height:39px;
+    font-size:11px;
+  }
 }
-@media(min-width:1000px){.products{grid-template-columns:repeat(4,minmax(0,1fr))}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+@media(min-width:1000px){
+  .products{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+}
 </style>
 </head>
+
 <body>
 
 <div class="announcement">
@@ -148,122 +476,10 @@ footer{padding:25px 14px;color:#89838f;text-align:center;font-size:11px;line-hei
       <img src="https://i.postimg.cc/9FFyk8pg/Screenshot-2026-11-14-22-33-09-484-com-instagram-android.jpg" alt="FREEARD OFC">
     </div>
     <div>
-      <div class="brand-name">FREEARD OFC
+      <div class="brand-name">
+        FREEARD OFC
         <svg class="verified-badge" viewBox="0 0 48 48" aria-label="Verificado">
           <path d="M24 2 L29 7 L36 5 L39 12 L46 16 L43 24 L46 32 L39 36 L36 43 L29 41 L24 46 L19 41 L12 43 L9 36 L2 32 L5 24 L2 16 L9 12 L12 5 L19 7 Z" fill="#1877F2"/>
           <path d="M14 24 L21 31 L35 17" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-      </div>
-      <div class="brand-sub">LOJA DE PRODUTOS DIGITAIS</div>
-    </div>
-  </div>
-  <div class="header-actions">
-    <button class="icon-button" type="button" aria-label="Pesquisar" onclick="searchNotice()">
-      <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
-    </button>
-    <button class="icon-button cart-button" type="button" aria-label="Sacola" onclick="cartNotice()">
-      <svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3h2l2.2 12.1a2 2 0 0 0 2 1.6h9.1a2 2 0 0 0 1.9-1.5L21 8H6"/></svg>
-    </button>
-    <button class="login-button" type="button" onclick="alert('Área de login em breve!')">Entrar</button>
-  </div>
-</header>
-</div>
-
-<main>
-  <div class="intro">
-    <div class="section-heading">
-      <h2>👇 ANDROID HS SAFE PARA PRINCIPAL 👇</h2>
-      <p>Confira os produtos disponíveis e escolha o seu.</p>
-      <div class="section-mark"></div>
-    </div>
-  </div>
-  <section class="products" id="products" aria-live="polite">
-    <div class="status-message">Carregando produtos...</div>
-  </section>
-</main>
-<footer>© 2026 FREEARD OFC — Todos os direitos reservados.</footer>
-
-<script>
-const SUPABASE_URL = 'https://uvmlovadmbyiuvjogepv.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_4eUg8dwrnmVZCcCQiEANvA_DgXwvOST';
-const PIX_URL = 'https://nubank.com.br/cobrar/3d51nu/6b099831-ee8a-412b-8c7b-4e7ea8e34379';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-function escapeHTML(value){
-  return String(value ?? '').replace(/[&<>"']/g, char => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[char]));
-}
-function formatPrice(value){
-  const number=Number(value);
-  if(!Number.isFinite(number)) return 'Consulte';
-  return number.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-}
-function openPix(){window.location.href=PIX_URL}
-function searchNotice(){alert('A pesquisa será disponibilizada em breve!')}
-function cartNotice(){alert('A sacola visual está pronta. A integração do carrinho ainda precisa ser feita.')}
-
-function renderProduct(product){
-  const price=Number(product.price);
-  const promo=product.promo_price==null?null:Number(product.promo_price);
-  const hasPromo=Number.isFinite(promo)&&promo>0&&Number.isFinite(price)&&promo<price;
-  const name=escapeHTML(product.name);
-  const image=product.image_url?`
-    <div class="image-wrap">
-      <img class="product-image" src="${escapeHTML(product.image_url)}" alt="${name}" loading="lazy"
-        onerror="this.hidden=true;this.nextElementSibling.hidden=false">
-      <div class="image-placeholder" hidden><span class="placeholder-symbol">⚡</span><strong>${name}</strong><small>FREEARD OFC</small></div>
-    </div>`:`
-    <div class="image-wrap"><div class="image-placeholder"><span class="placeholder-symbol">⚡</span><strong>${name}</strong><small>FREEARD OFC</small></div></div>`;
-
-  const priceLine=hasPromo?`
-    <div class="price-line">
-      <span class="old">${formatPrice(price)}</span>
-      <span class="discount">
-        <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 3h7M6 1l3 2-3 2M10 9H3M6 7l-3 2 3 2"/></svg>
-        ${Math.round((1-promo/price)*100)}%
-      </span>
-    </div>`:`<div class="price-line"><span class="old" style="visibility:hidden">R$ 0,00</span></div>`;
-
-  return `
-    <article class="card">
-      ${image}
-      <div class="info">
-        <div class="name">${name}</div>
-        ${priceLine}
-        <div class="price">${formatPrice(hasPromo?promo:price)}</div>
-        <div class="pix">À vista no Pix</div>
-        <div class="buttons">
-          <button class="buy" type="button" onclick="openPix()">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/>
-              <path d="M2.5 3h2l2.2 12.1a2 2 0 0 0 2 1.6h9.1a2 2 0 0 0 1.9-1.5L21 8H6"/>
-            </svg>
-            Comprar agora
-          </button>
-        </div>
-      </div>
-    </article>`;
-}
-
-async function loadProducts(){
-  const container=document.getElementById('products');
-  const {data,error}=await supabaseClient.from('products')
-    .select('id,name,description,price,image_url,promo_price,published,created_at')
-    .eq('published',true).order('created_at',{ascending:true});
-
-  if(error){
-    console.error('Erro ao carregar produtos:',error);
-    container.innerHTML='<div class="status-message">Não foi possível carregar os produtos. Verifique as permissões da tabela no Supabase.</div>';
-    return;
-  }
-  if(!data||data.length===0){
-    container.innerHTML='<div class="status-message">Nenhum produto publicado foi encontrado.</div>';
-    return;
-  }
-  container.innerHTML=data.map(renderProduct).join('');
-}
-loadProducts();
-</script>
-</body>
-</html>
+      </div
