@@ -28,19 +28,15 @@ body{
   margin:0;
   color:var(--text);
   font-family:Inter,Arial,Helvetica,sans-serif;
-  background:
-    radial-gradient(ellipse at 8% 0%,rgba(125,0,190,.12),transparent 34rem),
-    radial-gradient(ellipse at 100% 42%,rgba(210,25,45,.07),transparent 30rem),
-    var(--bg);
-  background-attachment:fixed;
+  background:var(--bg);
 }
 button{font:inherit}
 .announcement{
-  min-height:36px;
+  min-height:32px;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:7px 12px;
+  padding:5px 10px;
   color:#fff;
   background:linear-gradient(90deg,#6500a8 0%,#8200c8 48%,#6500a8 100%);
   border-bottom:1px solid rgba(255,255,255,.08);
@@ -60,7 +56,7 @@ header{
   gap:12px;
   max-width:1160px;
   margin:auto;
-  padding:12px 16px;
+  padding:8px 12px;
   background:rgba(9,9,12,.94);
   border-bottom:1px solid var(--line);
   backdrop-filter:blur(14px);
@@ -76,63 +72,61 @@ header{
 .header-shell header{position:static;border:0;background:transparent;backdrop-filter:none}
 .brand{display:flex;align-items:center;gap:10px;min-width:0}
 .avatar{
-  width:42px;height:42px;flex:0 0 42px;
-  border-radius:10px;overflow:hidden;
+  width:34px;height:34px;flex:0 0 34px;
+  border-radius:7px;overflow:hidden;
   border:1px solid rgba(255,255,255,.13);
   background:#17121d;
 }
 .avatar img{display:block;width:100%;height:100%;object-fit:cover}
 .brand-name{
   display:flex;align-items:center;gap:7px;
-  white-space:nowrap;font-size:16px;font-weight:900;letter-spacing:.15px;
+  white-space:nowrap;font-size:14px;font-weight:900;letter-spacing:.1px;
 }
-.verified-badge{display:block;width:18px;height:18px;flex:0 0 18px}
-.brand-sub{margin-top:2px;color:var(--muted);font-size:9px;letter-spacing:.3px}
+.verified-badge{display:block;width:16px;height:16px;flex:0 0 16px}
+.brand-sub{margin-top:2px;color:var(--muted);font-size:8px;letter-spacing:.3px}
 .header-actions{display:flex;align-items:center;gap:8px}
 .icon-button,.login-button{
-  min-width:42px;height:42px;
+  min-width:34px;height:34px;
   display:inline-flex;align-items:center;justify-content:center;
   border:1px solid rgba(255,255,255,.11);
-  border-radius:12px;color:#f7f4fa;background:#141319;
+  border-radius:8px;color:#f7f4fa;background:#111114;
   text-decoration:none;cursor:pointer;
   transition:border-color .2s,background .2s,transform .2s;
 }
-.icon-button svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.icon-button svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .icon-button:hover,.login-button:hover{border-color:rgba(163,59,234,.7);background:#1b1721}
 .cart-button{border-color:rgba(133,0,220,.45);color:#d7a6ff}
-.login-button{min-width:76px;padding:0 14px;font-size:12px;font-weight:800}
-main{max-width:1160px;margin:auto;padding:28px 16px 44px}
+.login-button{min-width:62px;padding:0 10px;font-size:10px;font-weight:800}
+main{max-width:1160px;margin:auto;padding:18px 12px 30px}
 .intro{
   display:flex;align-items:flex-end;justify-content:space-between;
-  gap:12px;margin:0 2px 18px;
+  gap:8px;margin:0 2px 12px;
 }
 .section-heading{min-width:0}
 .section-heading h2{
-  margin:0;font-size:clamp(18px,3vw,25px);font-weight:900;
+  margin:0;font-size:clamp(15px,2.5vw,20px);font-weight:900;
   text-transform:uppercase;line-height:1.25;letter-spacing:.1px;
 }
-.section-heading p{margin:7px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
+.section-heading p{margin:5px 0 0;color:var(--muted);font-size:10px;line-height:1.4}
 .section-mark{
-  width:42px;height:3px;margin-top:12px;border-radius:9px;
+  width:30px;height:2px;margin-top:8px;border-radius:9px;
   background:linear-gradient(90deg,var(--red),var(--purple));
 }
 .products{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
+  gap:10px;
 }
 .card{
   min-width:0;overflow:hidden;
   border:1px solid var(--line);
-  border-radius:14px;
-  background:linear-gradient(160deg,rgba(24,20,29,.98),rgba(13,13,17,.98) 72%);
-  box-shadow:0 8px 24px rgba(0,0,0,.25);
-  transition:transform .2s,border-color .2s,box-shadow .2s;
+  border-radius:10px;
+  background:#0e0e12;
+  box-shadow:0 3px 10px rgba(0,0,0,.22);
+  transition:border-color .2s;
 }
 .card:hover{
-  transform:translateY(-2px);
   border-color:rgba(163,59,234,.55);
-  box-shadow:0 12px 28px rgba(0,0,0,.32),0 0 18px rgba(133,0,220,.08);
 }
 .image-wrap{
   position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;
@@ -149,39 +143,39 @@ main{max-width:1160px;margin:auto;padding:28px 16px 44px}
 .placeholder-symbol{font-size:28px}
 .image-placeholder strong{font-size:12px;overflow-wrap:anywhere}
 .image-placeholder small{color:#d4a7ee;font-size:9px;letter-spacing:1px}
-.info{padding:10px}
+.info{padding:7px}
 .name{
-  min-height:36px;font-size:12px;font-weight:800;line-height:1.35;
+  min-height:28px;font-size:10px;font-weight:800;line-height:1.35;
   overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;
   -webkit-box-orient:vertical;overflow:hidden;
 }
 .description{
-  min-height:28px;margin-top:5px;color:var(--muted);font-size:10px;line-height:1.4;
+  min-height:24px;margin-top:4px;color:var(--muted);font-size:9px;line-height:1.35;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
-.old{margin-top:8px;color:#928d98;text-decoration:line-through;font-size:11px}
+.old{margin-top:6px;color:#928d98;text-decoration:line-through;font-size:9px}
 .discount{
-  display:inline-block;margin-left:7px;padding:3px 7px;
+  display:inline-block;margin-left:5px;padding:2px 5px;
   border:1px solid rgba(227,38,54,.28);border-radius:6px;
   color:#ff9aa3;background:rgba(227,38,54,.10);
-  font-size:9px;font-weight:800;text-decoration:none;
+  font-size:8px;font-weight:800;text-decoration:none;
 }
 .price{
-  margin-top:5px;color:#ff5967;font-size:16px;font-weight:900;
+  margin-top:4px;color:#f02b3b;font-size:14px;font-weight:800;
   letter-spacing:.1px;
 }
-.pix{margin-top:2px;color:var(--muted);font-size:9px}
-.buttons{display:flex;gap:7px;margin-top:10px}
+.pix{margin-top:2px;color:var(--muted);font-size:8px}
+.buttons{display:flex;gap:6px;margin-top:8px}
 .buy{
-  min-height:36px;flex:1;min-width:0;
+  min-height:30px;flex:1;min-width:0;
   display:flex;align-items:center;justify-content:center;gap:8px;
-  border:1px solid rgba(255,255,255,.08);border-radius:9px;
+  border:1px solid rgba(255,255,255,.08);border-radius:6px;
   color:#fff;background:linear-gradient(105deg,#b91529,#e32636 58%,#c51a2d);
-  box-shadow:0 4px 13px rgba(180,20,40,.17);
-  font-size:11px;font-weight:900;cursor:pointer;
+  box-shadow:none;
+  font-size:9px;font-weight:800;cursor:pointer;
   transition:filter .2s,transform .2s,box-shadow .2s;
 }
-.buy svg{width:17px;height:17px;flex:0 0 17px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.buy svg{width:14px;height:14px;flex:0 0 14px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .buy:hover{filter:brightness(1.09);box-shadow:0 6px 16px rgba(180,20,40,.25)}
 .buy:active{transform:scale(.985)}
 .status-message{
@@ -194,37 +188,39 @@ footer{
   font-size:11px;line-height:1.6;border-top:1px solid rgba(255,255,255,.07);
 }
 @media(min-width:700px){
-  main{padding-top:36px}
-  .products{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-  .info{padding:11px}
-  .name{font-size:13px}
-  .description{font-size:11px}
-  .price{font-size:17px}
-  .buy{min-height:38px;font-size:11px}
+  main{padding-top:24px}
+  .products{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .info{padding:9px}
+  .name{font-size:12px}
+  .description{font-size:10px}
+  .price{font-size:16px}
+  .buy{min-height:34px;font-size:10px}
 }
 @media(min-width:1000px){
-  .products{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+  .products{grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
 }
 @media(max-width:390px){
-  header{padding:9px 10px}
-  .avatar{width:36px;height:36px;flex-basis:36px}
-  .brand{gap:7px}
-  .brand-name{font-size:13px;gap:5px}
-  .verified-badge{width:16px;height:16px;flex-basis:16px}
-  .header-actions{gap:5px}
-  .icon-button,.login-button{height:36px;min-width:36px;border-radius:10px}
-  .login-button{min-width:60px;padding:0 9px;font-size:10px}
-  main{padding:22px 11px 34px}
-  .products{gap:10px}
-  .info{padding:7px}
-  .name{font-size:10px;min-height:28px}
-  .description{font-size:9px;min-height:25px}
-  .old{font-size:9px}
-  .discount{font-size:8px;padding:2px 5px}
-  .price{font-size:14px}
-  .pix{font-size:8px}
-  .buy{min-height:32px;font-size:9px;gap:5px}
-  .buy svg{width:15px;height:15px;flex-basis:15px}
+  header{padding:7px 9px}
+  .avatar{width:30px;height:30px;flex-basis:30px}
+  .brand{gap:6px}
+  .brand-name{font-size:12px;gap:4px}
+  .verified-badge{width:14px;height:14px;flex-basis:14px}
+  .brand-sub{font-size:7px}
+  .header-actions{gap:4px}
+  .icon-button,.login-button{height:30px;min-width:30px;border-radius:7px}
+  .icon-button svg{width:15px;height:15px}
+  .login-button{min-width:52px;padding:0 7px;font-size:9px}
+  main{padding:16px 9px 26px}
+  .products{gap:8px}
+  .info{padding:6px}
+  .name{font-size:9px;min-height:25px}
+  .description{font-size:8px;min-height:22px}
+  .old{font-size:8px}
+  .discount{font-size:7px;padding:2px 4px}
+  .price{font-size:13px}
+  .pix{font-size:7px}
+  .buy{min-height:28px;font-size:8px;gap:4px}
+  .buy svg{width:13px;height:13px;flex-basis:13px}
   .section-heading h2{font-size:18px}
 }
 @media(prefers-reduced-motion:reduce){
@@ -262,8 +258,8 @@ footer{
     </button>
     <button class="icon-button cart-button" type="button" aria-label="Carrinho" onclick="cartNotice()">
       <svg viewBox="0 0 24 24">
-        <path d="M2.5 3h2l2.2 11.1a2 2 0 0 0 2 1.6h9.1a2 2 0 0 0 1.9-1.5L21.5 7H5.5"/>
-        <circle cx="9.5" cy="19.5" r="1.3"/><circle cx="18" cy="19.5" r="1.3"/>
+        <path d="M5 8h14l1 13H4L5 8Z"/>
+        <path d="M9 9V6a3 3 0 0 1 6 0v3"/>
       </svg>
     </button>
     <button class="login-button" type="button" onclick="alert('Área de login em breve!')">Entrar</button>
