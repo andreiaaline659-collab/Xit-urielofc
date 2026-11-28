@@ -18,7 +18,7 @@
   --muted:#aab5c7;
   --blue:#1677ff;
   --blue-2:#0759d5;
-  --pink:#e72b91;
+  --pink:#1677ff;
 }
 *{box-sizing:border-box}
 body{
@@ -27,7 +27,7 @@ body{
   font-family:Arial,Helvetica,sans-serif;
   background:
     radial-gradient(circle at 15% 10%,rgba(22,119,255,.13),transparent 28rem),
-    radial-gradient(circle at 90% 35%,rgba(231,43,145,.08),transparent 25rem),
+    radial-gradient(circle at 90% 35%,rgba(22,119,255,.08),transparent 25rem),
     var(--bg);
 }
 .announcement{
@@ -38,7 +38,7 @@ body{
   overflow:hidden;
   padding:8px 12px;
   color:#fff;
-  background:linear-gradient(90deg,#c51c78,#ec3295,#bd197d);
+  background:linear-gradient(90deg,#0759d5,#1677ff,#0759d5);
   font-size:12px;
   font-weight:800;
   letter-spacing:.5px;
@@ -64,7 +64,7 @@ header{
   border-radius:50%;
   color:#fff;
   font-weight:900;font-size:22px;
-  background:linear-gradient(145deg,#268bff,#1045bd 60%,#e72b91);
+  background:linear-gradient(145deg,#268bff,#1045bd 60%,#1677ff);
   border:2px solid rgba(255,255,255,.22);
   box-shadow:0 0 18px rgba(22,119,255,.28);
   overflow:hidden;
@@ -96,7 +96,7 @@ main{max-width:1050px;margin:auto;padding:22px 15px 40px}
 .welcome{
   display:flex;align-items:center;justify-content:space-between;gap:15px;
   padding:19px;border:1px solid var(--line);border-radius:18px;
-  background:linear-gradient(120deg,rgba(22,119,255,.14),rgba(231,43,145,.08)),var(--surface);
+  background:linear-gradient(120deg,rgba(22,119,255,.14),rgba(22,119,255,.08)),var(--surface);
   margin-bottom:27px;
 }
 .welcome h1{margin:0 0 6px;font-size:22px}
@@ -115,7 +115,7 @@ main{max-width:1050px;margin:auto;padding:22px 15px 40px}
   box-shadow:0 8px 25px rgba(0,0,0,.22);
 }
 .product-image,.image-placeholder{
-  display:block;width:100%;aspect-ratio:1/1;object-fit:cover;
+  display:block;width:100%;aspect-ratio:16/9;object-fit:cover;
   background:#111b2b;border-bottom:1px solid var(--line);
 }
 .image-placeholder{
@@ -145,7 +145,7 @@ main{max-width:1050px;margin:auto;padding:22px 15px 40px}
 footer{padding:25px 12px;color:var(--muted);text-align:center;font-size:12px;border-top:1px solid var(--line)}
 @media(min-width:700px){
   .products{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-  .product-image,.image-placeholder{aspect-ratio:4/3}
+  .product-image,.image-placeholder{aspect-ratio:16/9}
 }
 @media(max-width:390px){
   header{padding:10px}
@@ -166,7 +166,7 @@ footer{padding:25px 12px;color:var(--muted);text-align:center;font-size:12px;bor
 </head>
 
 <body>
-<div class="announcement">⚡ OFERTAS E NOVIDADES • ATENDIMENTO RÁPIDO • STRIKE VENDAS ⚡</div>
+<div class="announcement">VENDEDOR VERIFICADO • TODOS OS XIT SÃO PERMANENTES!<br>SE NÃO FUNCIONAR, REEMBOLSO DO DINHEIRO!</div>
 
 <header>
   <div class="brand">
@@ -251,7 +251,6 @@ function renderProduct(product){
         <div class="pix">À vista no PIX</div>
         <div class="buttons">
           <button class="buy" type="button" onclick="openPix()"><span>🛒</span> COMPRAR AGORA</button>
-          <button class="download" type="button" aria-label="Informações de download" onclick="downloadNotice()">⇩</button>
         </div>
       </div>
     </article>`;
